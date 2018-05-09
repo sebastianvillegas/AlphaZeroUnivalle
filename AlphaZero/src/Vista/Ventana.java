@@ -1,6 +1,7 @@
 package Vista;
 
 import AlphaZero.*;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -29,9 +30,8 @@ public class Ventana extends javax.swing.JFrame {
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-
-        //comboBoxBusqueda.addItem("Amplitud");
         
+        mundo = 1;
         turno = "blanco";
         mouse = new EventosMouse();
         textAreaReporte.setEditable(false);
@@ -187,6 +187,7 @@ public class Ventana extends javax.swing.JFrame {
     
     private void llenarMatriz() throws FileNotFoundException, IOException {
 
+        int color = 0;
         File archivo = new File("sources/A/Input" + mundo +".txt");
         FileReader fr = new FileReader(archivo);
         BufferedReader br = new BufferedReader(fr);
@@ -198,12 +199,40 @@ public class Ventana extends javax.swing.JFrame {
             System.out.println(linea);
             String[] values = linea.split(" ");
             
-
-            for (int i = 0; i < 6; i++) { 
-                                
+            for (int i = 0; i < 6; i++) {
+                
                 matriz[j][i] = values[i];                
-                ImageIcon imagen = new ImageIcon("sources/" + "M" + "/" + values[i]/*.charAt(0)*/ + ".png"); 
-                matrizBotones[j][i].setIcon(imagen);      
+                
+                if(matriz[j][i].equals("2") || matriz[j][i].equals("3")){
+                    xActualBlanco = j;
+                    yActualBlanco = i;   
+                }
+                
+                if (color == 0) {
+                    matrizBotones[j][i].setBackground(Color.white);
+                    matrizBotones[j][i].setOpaque(true);
+                }
+                else if (color == 1) {
+                    matrizBotones[j][i].setBackground(Color.black);
+                    matrizBotones[j][i].setOpaque(true);
+                }
+                
+                if(color == 0){
+                    color = 1;
+                }
+                else{
+                    color = 0;
+                }
+                
+                if (matriz[j][i].equals("1")) {
+                    ImageIcon imagen = new ImageIcon("sources/" + "M" + "/" + 6 + ".png"); 
+                    matrizBotones[j][i].setIcon(imagen);
+                    
+                }
+                
+                /*ImageIcon imagen = new ImageIcon("sources/" + "M" + "/" + values[i] + ".png"); 
+                matrizBotones[j][i].setIcon(imagen);*/
+                
                 
                 /*
                 0 = blanco
@@ -214,24 +243,10 @@ public class Ventana extends javax.swing.JFrame {
                 5 = caballo negro en casilla negra
                 6 = manzana en casilla blanca
                 7 = manzana en casilla negra
-                8 = caballos en la misma posición
                 */
-                
-/*
-                if (matriz[j][i] == 2) {
 
-                    x = j;
-                    y = i;
-                }
-                
-                if (matriz[j][i] == 5) {
-
-                    xf = j;
-                    yf = i;
-                }
-*/
             }
-
+            
             linea = br.readLine();
             j++;
         
@@ -241,20 +256,25 @@ public class Ventana extends javax.swing.JFrame {
     
     public void hacerJugada(int xNueva, int yNueva){
         if (turno.equals("blanco")) {
-            /*if (matriz[xActualBlanco][yActualBlanco].equals("0") || 
-                matriz[xActualBlanco][yActualBlanco].equals("2") ||
-                matriz[xActualBlanco][yActualBlanco].equals("4") ||
-                matriz[xActualBlanco][yActualBlanco].equals("6")) {
+            if (matriz[xActualBlanco][yActualBlanco].equals("2") || 
+                matriz[xActualBlanco][yActualBlanco].equals("3")) {
                 
-                
-            }*/
-            if (matriz][xNueva][yNueva]) {
-                
+                matriz[xActualBlanco][yActualBlanco] = "0";
+                ImageIcon imagen = new ImageIcon("sources/" + "M" + "/" + "0"/*.charAt(0)*/ + ".png"); 
+                matrizBotones[xActualBlanco][yActualBlanco].setIcon(imagen);
             }
             
-            matriz[xNueva][yNueva] = 
             
-            
+            if (matriz[xNueva][yNueva].equals("0")) {
+                matriz[xNueva][yNueva]="2";
+                ImageIcon imagen = new ImageIcon("sources/" + "M" + "/" + "2"/*.charAt(0)*/ + ".png"); 
+                matrizBotones[xNueva][yNueva].setIcon(imagen);  
+            }
+            else if (matriz[xNueva][yNueva].equals("1")) {
+                matriz[xNueva][yNueva]="3";
+                ImageIcon imagen = new ImageIcon("sources/" + "M" + "/" + "3"/*.charAt(0)*/ + ".png"); 
+                matrizBotones[xNueva][yNueva].setIcon(imagen);
+            }   
         }
     }
 
