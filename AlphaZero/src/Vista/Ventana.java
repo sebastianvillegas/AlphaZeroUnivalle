@@ -2,6 +2,8 @@ package Vista;
 
 import AlphaZero.*;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.logging.*;
 import javax.swing.*;
@@ -263,6 +265,27 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
     }
+    
+    private class EventosMouse extends MouseAdapter
+	//Clase interna para manejar los eventos del mouse
+	{
+                @Override
+		public void mouseClicked(MouseEvent click) {
+			
+			for(int i=0; i<6; i++)
+			{
+                            for (int j = 0; j < 6; j++) {
+                                if( click.getSource() == matrizBotones[i][j])
+				{
+                                    System.out.println(i + " " + j);
+				}			
+                            }
+                        }
+				
+				
+		}
+			
+	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonEmpezar;
