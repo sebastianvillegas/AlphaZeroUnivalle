@@ -13,9 +13,15 @@ public class Ventana extends javax.swing.JFrame {
     private String[][] matriz = new String[6][6];
     private JLabel[][] matrizBotones = new JLabel[6][6];
     private ImageIcon caballo;
+    private EventosMouse mouse;
     private int x;
     private int y;
     private int mundo;
+    private int xActualBlanco;
+    private int yActualBlanco;
+    private int xActualNegro;
+    private int yActualNegro;
+    private String turno;
 
     public Ventana() throws IOException {
 
@@ -26,9 +32,8 @@ public class Ventana extends javax.swing.JFrame {
 
         //comboBoxBusqueda.addItem("Amplitud");
         
-        
-        
-        mundo = 0;
+        turno = "blanco";
+        mouse = new EventosMouse();
         textAreaReporte.setEditable(false);
         textAreaReporte.setLineWrap(true);
         textAreaReporte.setWrapStyleWord(true);
@@ -173,6 +178,7 @@ public class Ventana extends javax.swing.JFrame {
             for(int j = 0; j < 6; j++){
                 
                 JLabel boton = new JLabel();
+                boton.addMouseListener(mouse);
                 matrizBotones[i][j] = boton;
                 panelMatriz.add(boton);
             }
@@ -232,6 +238,25 @@ public class Ventana extends javax.swing.JFrame {
         
     }
 }
+    
+    public void hacerJugada(int xNueva, int yNueva){
+        if (turno.equals("blanco")) {
+            /*if (matriz[xActualBlanco][yActualBlanco].equals("0") || 
+                matriz[xActualBlanco][yActualBlanco].equals("2") ||
+                matriz[xActualBlanco][yActualBlanco].equals("4") ||
+                matriz[xActualBlanco][yActualBlanco].equals("6")) {
+                
+                
+            }*/
+            if (matriz][xNueva][yNueva]) {
+                
+            }
+            
+            matriz[xNueva][yNueva] = 
+            
+            
+        }
+    }
 
     public void recargar(){
         
@@ -278,6 +303,7 @@ public class Ventana extends javax.swing.JFrame {
                                 if( click.getSource() == matrizBotones[i][j])
 				{
                                     System.out.println(i + " " + j);
+                                    hacerJugada(i, j);
 				}			
                             }
                         }
