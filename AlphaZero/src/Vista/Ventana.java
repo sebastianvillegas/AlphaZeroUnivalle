@@ -12,6 +12,7 @@ import javax.swing.*;
 public class Ventana extends javax.swing.JFrame {
 
     private String[][] matriz = new String[6][6];
+    private String[][] coloresMatriz = new String[6][6];
     private JLabel[][] matrizBotones = new JLabel[6][6];
     private ImageIcon caballo;
     private EventosMouse mouse;
@@ -187,68 +188,55 @@ public class Ventana extends javax.swing.JFrame {
     
     private void llenarMatriz() throws FileNotFoundException, IOException {
 
-        int color = 0;
-        File archivo = new File("sources/A/Input" + mundo +".txt");
-        FileReader fr = new FileReader(archivo);
+        File archivoColores = new File("sources/A/Input1.txt");
+        FileReader fr = new FileReader(archivoColores);
         BufferedReader br = new BufferedReader(fr);
+        
+        File archivoCaballo = new File("sources/A/Input0.txt");
+        FileReader fr1 = new FileReader(archivoCaballo);
+        BufferedReader br1 = new BufferedReader(fr1);
+        
+        String lineaCaballo = br1.readLine();
+        String lineaColores = br.readLine();
+        int i = 0;
 
-        String linea = br.readLine();
-        int j = 0;
-
-        while (linea != null) {
-            System.out.println(linea);
-            String[] values = linea.split(" ");
+        while (lineaColores != null) {
             
-            for (int i = 0; i < 6; i++) {
+            String[] values = lineaColores.split(" ");
+            String[] valuesHorse = lineaCaballo.split(" ");
+            
+            for (int j = 0; j < 6; j++) {
                 
-                matriz[j][i] = values[i];                
+                matriz[i][j] = valuesHorse[j];
+                coloresMatriz[i][j] = values[j];
                 
-                if(matriz[j][i].equals("2") || matriz[j][i].equals("3")){
-                    xActualBlanco = j;
-                    yActualBlanco = i;   
+                if(matriz[i][j].equals("2") || matriz[i][j].equals("3")){
+                    xActualBlanco = i;
+                    yActualBlanco = j;   
                 }
                 
-                if (color == 0) {
-                    matrizBotones[j][i].setBackground(Color.white);
-                    matrizBotones[j][i].setOpaque(true);
+                if (coloresMatriz[i][j].equals("0")) {
+                    matrizBotones[i][j].setBackground(Color.white);
+                    matrizBotones[i][j].setOpaque(true);
                 }
-                else if (color == 1) {
-                    matrizBotones[j][i].setBackground(Color.black);
-                    matrizBotones[j][i].setOpaque(true);
-                }
-                
-                if(color == 0){
-                    color = 1;
-                }
-                else{
-                    color = 0;
+                else if (coloresMatriz[i][j].equals("1")) {
+                    matrizBotones[i][j].setBackground(Color.black);
+                    matrizBotones[i][j].setOpaque(true);
                 }
                 
-                if (matriz[j][i].equals("1")) {
-                    ImageIcon imagen = new ImageIcon("sources/" + "M" + "/" + 6 + ".png"); 
-                    matrizBotones[j][i].setIcon(imagen);
+                if (matriz[i][j].equals("1")) {
+                    ImageIcon caballoImagen = new ImageIcon("sources/" + "A" + "/" + "h" + ".png"); 
+                    ImageIcon caballoT = new ImageIcon(caballoImagen.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_DEFAULT));
+                    matrizBotones[i][j].setIcon(caballoT);
                     
                 }
                 
-                /*ImageIcon imagen = new ImageIcon("sources/" + "M" + "/" + values[i] + ".png"); 
-                matrizBotones[j][i].setIcon(imagen);*/
-                
-                
-                /*
-                0 = blanco
-                1 = negro
-                2 = caballo blanco en casilla blanca
-                3 = caballo blanco en casilla negra
-                4 = caballo negro en casilla blanca
-                5 = caballo negro en casilla negra
-                6 = manzana en casilla blanca
-                7 = manzana en casilla negra
-                */
+                //aqui agrego la otras imagenes
 
             }
-            
-            linea = br.readLine();
-            j++;
+            lineaCaballo = br1.readLine();
+            lineaColores = br.readLine();
+            i++;
         
         
     }
