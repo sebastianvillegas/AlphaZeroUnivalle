@@ -6,12 +6,13 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.logging.*;
 import javax.swing.*;
 
 public class Ventana extends javax.swing.JFrame {
 
-    private String[][] matriz = new String[6][6];
+    private static String[][] matriz = new String[6][6];
     private String[][] coloresMatriz = new String[6][6];
     private JLabel[][] matrizBotones = new JLabel[6][6];
     private ImageIcon caballo;
@@ -23,7 +24,8 @@ public class Ventana extends javax.swing.JFrame {
     private int yActualBlanco;
     private int xActualNegro;
     private int yActualNegro;
-    private String turno;
+    private static String turno;
+    private static LogicaAlgoritmo logica;
 
     public Ventana() throws IOException {
 
@@ -33,6 +35,7 @@ public class Ventana extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         
         mundo = 1;
+        logica = new LogicaAlgoritmo();
         turno = "blanco";
         mouse = new EventosMouse();
         textAreaReporte.setEditable(false);
@@ -291,6 +294,7 @@ public class Ventana extends javax.swing.JFrame {
                 try {
 
                     new Ventana().setVisible(true);
+                    
                 } catch (IOException ex) {
 
                     Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
@@ -305,14 +309,52 @@ public class Ventana extends javax.swing.JFrame {
                 @Override
 		public void mouseClicked(MouseEvent click) {
 			
-			for(int i=0; i<6; i++)
-			{
+			for(int i=0; i<6; i++) {
                             for (int j = 0; j < 6; j++) {
-                                if( click.getSource() == matrizBotones[i][j])
-				{
+                                if( click.getSource() == matrizBotones[i][j]) {
                                     System.out.println(i + " " + j);
-                                    hacerJugada(i, j);
-				}			
+                                    
+                                    for (int q = 0; q < 6; q++) {
+                                            for (int b = 0; b < 6; b++) {
+                                                System.out.print(matriz[q][b] + " ");
+                                                
+                                            }
+                                            System.out.println("");
+                                            
+                                        }
+                                    
+                                    System.out.println("");
+                                    
+                                    ArrayList<Nodo> arreglo= new ArrayList<>();
+                                    arreglo = logica.expandirNodo(matriz, i, j, turno, 0);
+                                    
+                                    
+                    
+                                    for (int k = 0; k < arreglo.size(); k++) {
+                                        for (int l = 0; l < 6; l++) {
+                                            for (int m = 0; m < 6; m++) {
+                                                System.out.print(arreglo.get(k).getEstadoJuego()[l][m] + " ");
+                                            }
+                                            System.out.println("");
+                                            
+                                        }
+                                        
+                                        System.out.println("");
+                                        
+                                    }
+                                    
+                                    System.out.println("");
+                                    for (int q = 0; q < 6; q++) {
+                                            for (int b = 0; b < 6; b++) {
+                                                System.out.print(matriz[q][b] + " ");
+                                                
+                                            }
+                                            System.out.println("");
+                                            
+                                        }
+                                    
+                                    //hacerJugada(i, j);
+                                }			
                             }
                         }
 				
