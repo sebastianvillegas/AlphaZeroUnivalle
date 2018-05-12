@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class LogicaAlgoritmo {
     
-    public ArrayList<Nodo> expandirNodo(String[][] matriz, int x, int y, String tipo, int profundidad){
+    public ArrayList<Nodo> expandirNodo(String[][] matriz, int x, int y, String tipo, int profundidad, int manzanas){
         
         ArrayList<Nodo> nuevosNodos= new ArrayList<>();
         int utilidad = 0;
@@ -29,9 +29,14 @@ public class LogicaAlgoritmo {
                 
             }
             
+            //int m=0;
+           /* if (matriz[x-2][y+1].equals("4")) {
+                m = manzanas -1;                
+            }*/
+            
             matrizNueva[x][y] = "0";
             matrizNueva[x-2][y+1]="1";
-            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva);
+            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas);
             nuevosNodos.add(nodo);
                        
         }
@@ -56,7 +61,7 @@ public class LogicaAlgoritmo {
             
             matrizNueva[x][y] = "0";
             matrizNueva[x-2][y-1]="1";
-            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva);
+            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas);
             nuevosNodos.add(nodo);
                        
         }
@@ -81,7 +86,7 @@ public class LogicaAlgoritmo {
             
             matrizNueva[x][y] = "0";
             matrizNueva[x+2][y-1]="1";
-            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva);
+            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas);
             nuevosNodos.add(nodo);
                        
         }
@@ -106,7 +111,7 @@ public class LogicaAlgoritmo {
             
             matrizNueva[x][y] = "0";
             matrizNueva[x+2][y+1]="1";
-            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva);
+            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas);
             nuevosNodos.add(nodo);
                        
         }
@@ -131,7 +136,7 @@ public class LogicaAlgoritmo {
             
             matrizNueva[x][y] = "0";
             matrizNueva[x+1][y+2]="1";
-            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva);
+            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas);
             nuevosNodos.add(nodo);
                        
         }
@@ -156,7 +161,7 @@ public class LogicaAlgoritmo {
             
             matrizNueva[x][y] = "0";
             matrizNueva[x-1][y+2]="1";
-            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva);
+            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas);
             nuevosNodos.add(nodo);
                        
         }
@@ -181,7 +186,7 @@ public class LogicaAlgoritmo {
             
             matrizNueva[x][y] = "0";
             matrizNueva[x-1][y-2]="1";
-            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva);
+            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas);
             nuevosNodos.add(nodo);
                        
         }
@@ -206,7 +211,7 @@ public class LogicaAlgoritmo {
             
             matrizNueva[x][y] = "0";
             matrizNueva[x+1][y-2]="1";
-            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva);
+            Nodo nodo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas);
             nuevosNodos.add(nodo);
                        
         }

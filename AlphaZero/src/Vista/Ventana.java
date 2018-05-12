@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Stack;
 import java.util.logging.*;
 import javax.swing.*;
 
@@ -26,6 +27,8 @@ public class Ventana extends javax.swing.JFrame {
     private int yActualNegro;
     private static String turno;
     private static LogicaAlgoritmo logica;
+    private Stack<Nodo> pila;
+    private int manzanas;
 
     public Ventana() throws IOException {
 
@@ -35,9 +38,11 @@ public class Ventana extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         
         mundo = 1;
+        pila = new Stack<Nodo>();
         logica = new LogicaAlgoritmo();
         turno = "blanco";
         mouse = new EventosMouse();
+        manzanas = 1;
         textAreaReporte.setEditable(false);
         textAreaReporte.setLineWrap(true);
         textAreaReporte.setWrapStyleWord(true);
@@ -314,22 +319,11 @@ public class Ventana extends javax.swing.JFrame {
                                 if( click.getSource() == matrizBotones[i][j]) {
                                     System.out.println(i + " " + j);
                                     
-                                    for (int q = 0; q < 6; q++) {
-                                            for (int b = 0; b < 6; b++) {
-                                                System.out.print(matriz[q][b] + " ");
-                                                
-                                            }
-                                            System.out.println("");
-                                            
-                                        }
-                                    
-                                    System.out.println("");
+                         
                                     
                                     ArrayList<Nodo> arreglo= new ArrayList<>();
-                                    arreglo = logica.expandirNodo(matriz, i, j, turno, 0);
+                                    arreglo = logica.expandirNodo(matriz, i, j, turno, 0, manzanas);
                                     
-                                    
-                    
                                     for (int k = 0; k < arreglo.size(); k++) {
                                         for (int l = 0; l < 6; l++) {
                                             for (int m = 0; m < 6; m++) {
@@ -341,18 +335,11 @@ public class Ventana extends javax.swing.JFrame {
                                         
                                         System.out.println("");
                                         
+                                        pila.push(arreglo.get(k));
+                                        
+                                        
+                                        
                                     }
-                                    
-                                    System.out.println("");
-                                    for (int q = 0; q < 6; q++) {
-                                            for (int b = 0; b < 6; b++) {
-                                                System.out.print(matriz[q][b] + " ");
-                                                
-                                            }
-                                            System.out.println("");
-                                            
-                                        }
-                                    
                                     //hacerJugada(i, j);
                                 }			
                             }

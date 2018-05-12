@@ -5,13 +5,15 @@ public class Nodo {
     private int utilidad;
     private int profundidad;
     private String[][] estadoJuego = new String[6][6];
+    private int manzanas;
     
     
-    public Nodo(String tip, int util, int prof, String[][] estado){
+    public Nodo(String tip, int util, int prof, String[][] estado, int man){
         tipo = tip;
         utilidad = util;
         profundidad = prof;
         estadoJuego = estado;
+        manzanas = man;
              
     }
 
