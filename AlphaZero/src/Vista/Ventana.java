@@ -19,10 +19,10 @@ public class Ventana extends javax.swing.JFrame {
     private ImageIcon caballo;
     private EventosMouse mouse;
     private int mundo;
-    private int xActualBlanco;
-    private int yActualBlanco;
-    private int xActualNegro;
-    private int yActualNegro;
+    private int xInicialBlanco;
+    private int yInicialBlanco;
+    private int xInicialNegro;
+    private int yInicialNegro;
     private static String turno;
     private static LogicaAlgoritmo logica;
     private Stack<Nodo> pila;
@@ -55,8 +55,13 @@ public class Ventana extends javax.swing.JFrame {
         panelMatriz.setLayout(new GridLayout(n, n));
         crearMatriz();
         llenarMatriz();
-        Caballo caballo1 = new Caballo(0,0);
-        Nodo raiz = new Nodo("MAX", 90, 0, matriz, manzanas, caballo1, null);
+        xInicialBlanco = 0;
+        yInicialBlanco = 0;
+        xInicialBlanco = 0;
+        yInicialNegro = 0;
+        Caballo caballo1 = new Caballo(xInicialBlanco,yInicialBlanco);
+        Caballo caballo2 = new Caballo(xInicialNegro, yInicialNegro);
+        Nodo raiz = new Nodo("MAX", 90, 0, matriz, manzanas, caballo1, caballo2, null);
         pila.push(raiz);
         
         buttonRecargar.setEnabled(false);
@@ -227,8 +232,8 @@ public class Ventana extends javax.swing.JFrame {
                 coloresMatriz[i][j] = values[j];
                 
                 if(matriz[i][j].equals("2") || matriz[i][j].equals("3")){
-                    xActualBlanco = i;
-                    yActualBlanco = j;   
+                    xInicialBlanco = i;
+                    yInicialBlanco = j;   
                 }
                 
                 if (coloresMatriz[i][j].equals("0")) {
@@ -258,29 +263,30 @@ public class Ventana extends javax.swing.JFrame {
     }
 }
     
-    public void hacerJugada(int xNueva, int yNueva){
+   /* public void hacerJugada(int xNueva, int yNueva){
         if (turno.equals("blanco")) {
             if (matriz[xActualBlanco][yActualBlanco].equals("2") || 
                 matriz[xActualBlanco][yActualBlanco].equals("3")) {
                 
                 matriz[xActualBlanco][yActualBlanco] = "0";
-                ImageIcon imagen = new ImageIcon("sources/" + "M" + "/" + "0"/*.charAt(0)*/ + ".png"); 
+                ImageIcon imagen = new ImageIcon("sources/" + "M" + "/" + "0" + ".png"); 
                 matrizBotones[xActualBlanco][yActualBlanco].setIcon(imagen);
             }
             
             
             if (matriz[xNueva][yNueva].equals("0")) {
                 matriz[xNueva][yNueva]="2";
-                ImageIcon imagen = new ImageIcon("sources/" + "M" + "/" + "2"/*.charAt(0)*/ + ".png"); 
+                ImageIcon imagen = new ImageIcon("sources/" + "M" + "/" + "2" + ".png"); 
                 matrizBotones[xNueva][yNueva].setIcon(imagen);  
             }
             else if (matriz[xNueva][yNueva].equals("1")) {
                 matriz[xNueva][yNueva]="3";
-                ImageIcon imagen = new ImageIcon("sources/" + "M" + "/" + "3"/*.charAt(0)*/ + ".png"); 
+                ImageIcon imagen = new ImageIcon("sources/" + "M" + "/" + "3" + ".png"); 
                 matrizBotones[xNueva][yNueva].setIcon(imagen);
             }   
         }
     }
+*/
     
     
     

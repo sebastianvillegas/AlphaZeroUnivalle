@@ -7,16 +7,18 @@ public class Nodo {
     private String[][] estadoJuego = new String[6][6];
     private int manzanas;
     private Caballo caballo1;
+    private Caballo caballo2;
     private Nodo padre;
     
     
-    public Nodo(String tip, int util, int prof, String[][] estado, int man, Caballo horse1, Nodo padre){
+    public Nodo(String tip, int util, int prof, String[][] estado, int man, Caballo horse1,Caballo horse2, Nodo padre){
         tipo = tip;
         utilidad = util;
         profundidad = prof;
         estadoJuego = estado;
         manzanas = man;
         caballo1 = horse1;
+        caballo2 = horse2;
         this.padre = padre;
              
     }
@@ -117,6 +119,20 @@ public class Nodo {
      */
     public void setPadre(Nodo padre) {
         this.padre = padre;
+    }
+
+    /**
+     * @return the caballo2
+     */
+    public Caballo getCaballo2() {
+        return caballo2;
+    }
+
+    /**
+     * @param caballo2 the caballo2 to set
+     */
+    public void setCaballo2(Caballo caballo2) {
+        this.caballo2 = caballo2;
     }
     
 }
