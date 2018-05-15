@@ -14,7 +14,6 @@ public class AlphaZero {
         System.out.println("Número de filas y columnas");//Se pide un dato al usuario
 
         int n = Integer.parseInt(br.readLine()); //Se lee el nombre con readLine() que retorna un String con el dato
-        System.out.println(n);
         Ventana v = new Ventana(n);
         v.setVisible(true);
         

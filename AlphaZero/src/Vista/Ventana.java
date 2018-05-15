@@ -214,8 +214,6 @@ public class Ventana extends javax.swing.JFrame {
         
         String lineaCaballo = br1.readLine();
         String lineaColores = br.readLine();
-        System.out.println(lineaCaballo);
-        System.out.println(lineaColores);
         int i = 0;
 
         while (lineaColores != null) {
@@ -359,11 +357,11 @@ public class Ventana extends javax.swing.JFrame {
 			for(int i=0; i<n; i++) {
                             for (int j = 0; j < n; j++) {
                                 if( click.getSource() == matrizBotones[i][j]) {
-                                    System.out.println(i + " " + j);
+                                    //System.out.println(i + " " + j);
                                     
                                     ArrayList<Nodo> fin = new ArrayList<>();
                                     fin = generarArregloFinal();
-                                    System.out.println(fin.size());
+                                    //System.out.println(fin.size());
                                     
                                     
                                     

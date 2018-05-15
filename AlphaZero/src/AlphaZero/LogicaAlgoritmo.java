@@ -23,7 +23,7 @@ public class LogicaAlgoritmo {
         ArrayList<Nodo> nuevosNodos= new ArrayList<>();
         int utilidad = 0;
         
-        if((x - 2) >= 0 && (y + 1) <= n-1 && !seDevuelve(x-2, y+1, nodo)){
+        if((x - 2) >= 0 && (y + 1) <= n-1 && evitarCiclos(x-2, y+1, nodo)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -51,7 +51,7 @@ public class LogicaAlgoritmo {
                        
         }
         
-        if((x - 2) >= 0 && (y - 1) >= 0 && !seDevuelve(x-2, y-1, nodo)){
+        if((x - 2) >= 0 && (y - 1) >= 0 && evitarCiclos(x-2, y-1, nodo)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -71,13 +71,13 @@ public class LogicaAlgoritmo {
             valor = habiaManzana(matriz[x-2][y-1]);
             matrizNueva[x][y] = "0";
             matrizNueva[x-2][y-1]="1";
-            Caballo nuevoCaballo = new Caballo(x-2, y+1);
+            Caballo nuevoCaballo = new Caballo(x-2, y-1);
             Nodo nodoHijo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas-valor, nuevoCaballo, nodo);
             nuevosNodos.add(nodoHijo);
                        
         }
         
-        if((x + 2) <= n-1 && (y - 1) >= 0 && !seDevuelve(x+2, y-1, nodo)){
+        if((x + 2) <= n-1 && (y - 1) >= 0 && evitarCiclos(x+2, y-1, nodo)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -105,7 +105,7 @@ public class LogicaAlgoritmo {
                        
         }
         
-        if((x + 2) <= n-1 && (y + 1) <= n-1 && !seDevuelve(x+2, y+1, nodo)){
+        if((x + 2) <= n-1 && (y + 1) <= n-1 && evitarCiclos(x+2, y+1, nodo)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -133,7 +133,7 @@ public class LogicaAlgoritmo {
                        
         }
         
-        if((x + 1) <= n-1 && (y + 2) <= n-1 && !seDevuelve(x+1, y+2, nodo)){
+        if((x + 1) <= n-1 && (y + 2) <= n-1 && evitarCiclos(x+1, y+2, nodo)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -161,7 +161,7 @@ public class LogicaAlgoritmo {
                        
         }
         
-        if((x - 1) >= 0 && (y + 2) <= n-1 && !seDevuelve(x-1, y+2, nodo)){
+        if((x - 1) >= 0 && (y + 2) <= n-1 && evitarCiclos(x-1, y+2, nodo)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -188,7 +188,7 @@ public class LogicaAlgoritmo {
                        
         }
         
-        if((x - 1) >= 0 && (y - 2) >= 0 && !seDevuelve(x-1, y-2, nodo)){
+        if((x - 1) >= 0 && (y - 2) >= 0 && evitarCiclos(x-1, y-2, nodo)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -215,7 +215,7 @@ public class LogicaAlgoritmo {
                        
         }
         
-         if((x + 1) <= n-1 && (y - 2) >= 0 && !seDevuelve(x+1, y-2, nodo)){
+         if((x + 1) <= n-1 && (y - 2) >= 0 && evitarCiclos(x+1, y-2, nodo)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -230,10 +230,10 @@ public class LogicaAlgoritmo {
                     matrizNueva[i][j] = matriz[i][j];
                     
                 }
-                
             }
             int valor = 0;
             valor = habiaManzana(matriz[x+1][y-2]);
+             
             matrizNueva[x][y] = "0";
             matrizNueva[x+1][y-2]="1";
             Caballo nuevoCaballo = new Caballo(x+1, y-2);
@@ -246,24 +246,6 @@ public class LogicaAlgoritmo {
         
         
     }
-    
-    private boolean seDevuelve(int xNuevo, int yNuevo, Nodo nodo){
-        if (nodo.getProfundidad() == 0) {
-            return false;
-        } 
-        else {
-            if (xNuevo == nodo.getPadre().getCaballo1().getPosX() &&
-                yNuevo == nodo.getPadre().getCaballo1().getPosY()) {
-                return true;
-                
-            }
-            else{
-                return false;
-            }
-            
-        }
-        
-    }
 
     private int habiaManzana(String string) {
         if (string.equals("3")) {
@@ -273,6 +255,26 @@ public class LogicaAlgoritmo {
             return 0;
         }     
       
+    }
+    
+    public boolean evitarCiclos(int x, int y, Nodo nodo){
+         
+        if (nodo.getPadre() == null){
+            return true;
+        }
+        else{
+        if (nodo.getPadre().getCaballo1().getPosX() == x && nodo.getPadre().getCaballo1().getPosY() == y) {
+            return false;
+            
+        } else {
+            return evitarCiclos(x, y, nodo.getPadre());
+        }
+        
+        }
+        
+        
+        
+        
     }
 
     
