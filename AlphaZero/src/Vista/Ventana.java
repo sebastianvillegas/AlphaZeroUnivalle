@@ -13,13 +13,11 @@ import javax.swing.*;
 
 public class Ventana extends javax.swing.JFrame {
 
-    private static String[][] matriz = new String[6][6];
-    private String[][] coloresMatriz = new String[6][6];
-    private JLabel[][] matrizBotones = new JLabel[6][6];
+    private static String[][] matriz;
+    private String[][] coloresMatriz;
+    private JLabel[][] matrizBotones;
     private ImageIcon caballo;
     private EventosMouse mouse;
-    private int x;
-    private int y;
     private int mundo;
     private int xActualBlanco;
     private int yActualBlanco;
@@ -29,27 +27,37 @@ public class Ventana extends javax.swing.JFrame {
     private static LogicaAlgoritmo logica;
     private Stack<Nodo> pila;
     private int manzanas;
+    private static int n;
 
-    public Ventana() throws IOException {
+    public Ventana(int n) throws IOException {
 
+        
         super("Teoria de Juegos");        
+        this.n = n;
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         
+        matriz = new String[n][n];
+        coloresMatriz = new String[n][n];
+        matrizBotones = new JLabel[n][n];
         mundo = 1;
         pila = new Stack<Nodo>();
-        logica = new LogicaAlgoritmo();
+        logica = new LogicaAlgoritmo(this.n);
         turno = "blanco";
         mouse = new EventosMouse();
         manzanas = 1;
         textAreaReporte.setEditable(false);
         textAreaReporte.setLineWrap(true);
         textAreaReporte.setWrapStyleWord(true);
+        
 
-        panelMatriz.setLayout(new GridLayout(6, 6));
+        panelMatriz.setLayout(new GridLayout(n, n));
         crearMatriz();
         llenarMatriz();
+        Caballo caballo1 = new Caballo(0,0);
+        Nodo raiz = new Nodo("MAX", 90, 0, matriz, manzanas, caballo1, null);
+        pila.push(raiz);
         
         buttonRecargar.setEnabled(false);
     }
@@ -182,9 +190,9 @@ public class Ventana extends javax.swing.JFrame {
    
     private void crearMatriz(){
         
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < n; i++){
             
-            for(int j = 0; j < 6; j++){
+            for(int j = 0; j < n; j++){
                 
                 JLabel boton = new JLabel();
                 boton.addMouseListener(mouse);
@@ -206,6 +214,8 @@ public class Ventana extends javax.swing.JFrame {
         
         String lineaCaballo = br1.readLine();
         String lineaColores = br.readLine();
+        System.out.println(lineaCaballo);
+        System.out.println(lineaColores);
         int i = 0;
 
         while (lineaColores != null) {
@@ -213,7 +223,7 @@ public class Ventana extends javax.swing.JFrame {
             String[] values = lineaColores.split(" ");
             String[] valuesHorse = lineaCaballo.split(" ");
             
-            for (int j = 0; j < 6; j++) {
+            for (int j = 0; j < n; j++) {
                 
                 matriz[i][j] = valuesHorse[j];
                 coloresMatriz[i][j] = values[j];
@@ -273,6 +283,35 @@ public class Ventana extends javax.swing.JFrame {
             }   
         }
     }
+    
+    
+    
+    public ArrayList<Nodo> generarArregloFinal(){
+        ArrayList<Nodo> arregloFinal = new ArrayList<>();
+        
+        
+        while(!pila.isEmpty()){
+            ArrayList<Nodo> arreglo= new ArrayList<>();
+            if(pila.peek().getManzanas() > 0){
+                arreglo = logica.expandirNodo(pila.peek());
+            }
+            
+            arregloFinal.add(pila.pop());
+            
+            for (int k = 0; k < arreglo.size(); k++) {
+                for (int l = 0; l < n; l++) {
+                    for (int m = 0; m < n; m++) {
+                        System.out.print(arreglo.get(k).getEstadoJuego()[l][m] + " ");
+                    }
+                    System.out.println("");
+                }
+                System.out.println("");
+                pila.push(arreglo.get(k));
+            }
+        }
+        return arregloFinal;
+        
+    }
 
     public void recargar(){
         
@@ -289,7 +328,10 @@ public class Ventana extends javax.swing.JFrame {
         textAreaReporte.setText("");
     }     
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
+        
+        
+
 
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -298,7 +340,7 @@ public class Ventana extends javax.swing.JFrame {
 
                 try {
 
-                    new Ventana().setVisible(true);
+                    new Ventana(n).setVisible(true);
                     
                 } catch (IOException ex) {
 
@@ -314,32 +356,17 @@ public class Ventana extends javax.swing.JFrame {
                 @Override
 		public void mouseClicked(MouseEvent click) {
 			
-			for(int i=0; i<6; i++) {
-                            for (int j = 0; j < 6; j++) {
+			for(int i=0; i<n; i++) {
+                            for (int j = 0; j < n; j++) {
                                 if( click.getSource() == matrizBotones[i][j]) {
                                     System.out.println(i + " " + j);
                                     
-                         
+                                    ArrayList<Nodo> fin = new ArrayList<>();
+                                    fin = generarArregloFinal();
+                                    System.out.println(fin.size());
                                     
-                                    ArrayList<Nodo> arreglo= new ArrayList<>();
-                                    arreglo = logica.expandirNodo(matriz, i, j, turno, 0, manzanas);
                                     
-                                    for (int k = 0; k < arreglo.size(); k++) {
-                                        for (int l = 0; l < 6; l++) {
-                                            for (int m = 0; m < 6; m++) {
-                                                System.out.print(arreglo.get(k).getEstadoJuego()[l][m] + " ");
-                                            }
-                                            System.out.println("");
-                                            
-                                        }
-                                        
-                                        System.out.println("");
-                                        
-                                        pila.push(arreglo.get(k));
-                                        
-                                        
-                                        
-                                    }
+                                    
                                     //hacerJugada(i, j);
                                 }			
                             }
