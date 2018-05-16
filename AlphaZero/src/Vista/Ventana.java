@@ -61,7 +61,7 @@ public class Ventana extends javax.swing.JFrame {
         yInicialNegro = 0;
         Caballo caballo1 = new Caballo(xInicialBlanco,yInicialBlanco);
         Caballo caballo2 = new Caballo(xInicialNegro, yInicialNegro);
-        Nodo raiz = new Nodo("MAX", 90, 0, matriz, manzanas, caballo1, caballo2, null);
+        Nodo raiz = new Nodo("MAX", -90, 0, matriz, manzanas, caballo1, caballo2, null);
         pila.push(raiz);
         
         buttonRecargar.setEnabled(false);
@@ -406,6 +406,15 @@ public class Ventana extends javax.swing.JFrame {
                                     
                                     ArrayList<Nodo> fin = new ArrayList<>();
                                     fin = generarArregloFinal();
+                                    
+                                    System.out.println(fin.size());
+                                    for (int k = 0; k < fin.size(); k++) {
+                                        System.out.println("Tipo: " + fin.get(k).getTipo() +" Profundidad: "  + fin.get(k).getProfundidad() +
+                                                " Utilidad: " + fin.get(k).getUtilidad());
+                                        
+                                        
+                                        
+                                    }
                                    
                                     
                                     

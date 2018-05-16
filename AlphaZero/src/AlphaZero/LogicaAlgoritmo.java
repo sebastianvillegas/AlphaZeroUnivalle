@@ -11,6 +11,10 @@ public class LogicaAlgoritmo {
         this.n = n;
         
     }
+    
+    public void calcularUtilidad(){
+        
+    }
 
     public ArrayList<Nodo> expandirNodo(Nodo nodo){
         
@@ -33,10 +37,10 @@ public class LogicaAlgoritmo {
         }
         
         if(cambiarTipo(tipo).equals("MAX")){
-                utilidad = 90;
+                utilidad = -90;
             }
             else{
-                utilidad = -90;
+                utilidad = 90;
             }
         
         if((x - 2) >= 0 && (y + 1) <= n-1 && evitarCiclos(x-2, y+1, nodo, manzanas, tipo) && evitarCruces(nodo, x-2, y+1)){
@@ -107,13 +111,7 @@ public class LogicaAlgoritmo {
         }
         
         if((x + 2) <= n-1 && (y - 1) >= 0 && evitarCiclos(x+2, y-1, nodo, manzanas, tipo) && evitarCruces(nodo, x+2, y-1)){
-            if(tipo.equals("MAX")){
-                utilidad = 90;
-            }
-            else{
-                utilidad = -90;
-            }
-            
+          
             String[][] matrizNueva = new String[n][n];
             
             for (int i = 0; i < n; i++) {
@@ -146,12 +144,6 @@ public class LogicaAlgoritmo {
         }
         
         if((x + 2) <= n-1 && (y + 1) <= n-1 && evitarCiclos(x+2, y+1, nodo, manzanas, tipo) && evitarCruces(nodo, x+2, y+1)){
-            if(tipo.equals("MAX")){
-                utilidad = 90;
-            }
-            else{
-                utilidad = -90;
-            }
             
             String[][] matrizNueva = new String[n][n];
             
@@ -185,12 +177,6 @@ public class LogicaAlgoritmo {
         }
         
         if((x + 1) <= n-1 && (y + 2) <= n-1 && evitarCiclos(x+1, y+2, nodo, manzanas, tipo) && evitarCruces(nodo, x+1, y+2)){
-            if(tipo.equals("MAX")){
-                utilidad = 90;
-            }
-            else{
-                utilidad = -90;
-            }
             
             String[][] matrizNueva = new String[n][n];
             
@@ -224,12 +210,6 @@ public class LogicaAlgoritmo {
         }
         
         if((x - 1) >= 0 && (y + 2) <= n-1 && evitarCiclos(x-1, y+2, nodo, manzanas, tipo) && evitarCruces(nodo, x-1, y+2)){
-            if(tipo.equals("MAX")){
-                utilidad = 90;
-            }
-            else{
-                utilidad = -90;
-            }
             
             String[][] matrizNueva = new String[n][n];
             
@@ -262,12 +242,6 @@ public class LogicaAlgoritmo {
         }
         
         if((x - 1) >= 0 && (y - 2) >= 0 && evitarCiclos(x-1, y-2, nodo, manzanas, tipo) && evitarCruces(nodo, x-1, y-2)){
-            if(tipo.equals("MAX")){
-                utilidad = 90;
-            }
-            else{
-                utilidad = -90;
-            }
             
             String[][] matrizNueva = new String[n][n];
             
@@ -299,13 +273,7 @@ public class LogicaAlgoritmo {
         }
         
          if((x + 1) <= n-1 && (y - 2) >= 0 && evitarCiclos(x+1, y-2, nodo, manzanas, tipo) && evitarCruces(nodo, x+1, y-2)){
-            if(tipo.equals("MAX")){
-                utilidad = 90;
-            }
-            else{
-                utilidad = -90;
-            }
-            
+ 
             String[][] matrizNueva = new String[n][n];
             
             for (int i = 0; i < n; i++) {
