@@ -32,13 +32,14 @@ public class LogicaAlgoritmo {
             y = nodo.getCaballo2().getPosY();
         }
         
-        if((x - 2) >= 0 && (y + 1) <= n-1 && evitarCiclos(x-2, y+1, nodo, manzanas)){
-            if(cambiarTipo(tipo).equals("MAX")){
+        if(cambiarTipo(tipo).equals("MAX")){
                 utilidad = 90;
             }
             else{
                 utilidad = -90;
             }
+        
+        if((x - 2) >= 0 && (y + 1) <= n-1 && evitarCiclos(x-2, y+1, nodo, manzanas) && evitarCruces(nodo, x-2, y+1)){
             
             String[][] matrizNueva = new String[n][n];
             
@@ -60,11 +61,11 @@ public class LogicaAlgoritmo {
             
             Caballo nuevoCaballo = new Caballo(x-2, y+1);
             
-            Nodo nodoHijo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
             if (tipo.equals("MAX")) {
-                nodoHijo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
             } else {
-                nodoHijo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas - valor, nodo.getCaballo1(), nuevoCaballo, nodo);
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nodo.getCaballo1(), nuevoCaballo, nodo);
             }
             
             
@@ -72,13 +73,7 @@ public class LogicaAlgoritmo {
                        
         }
         
-        if((x - 2) >= 0 && (y - 1) >= 0 && evitarCiclos(x-2, y-1, nodo)){
-            if(tipo.equals("MAX")){
-                utilidad = 90;
-            }
-            else{
-                utilidad = -90;
-            }
+        if((x - 2) >= 0 && (y - 1) >= 0 && evitarCiclos(x-2, y-1, nodo, manzanas) && evitarCruces(nodo, x-2, y-1)){
             
             String[][] matrizNueva = new String[n][n];
             
@@ -91,14 +86,27 @@ public class LogicaAlgoritmo {
             int valor = 0;
             valor = habiaManzana(matriz[x-2][y-1]);
             matrizNueva[x][y] = "0";
-            matrizNueva[x-2][y-1]="1";
+            
+            if (tipo.equals("MAX")) {
+                matrizNueva[x-2][y-1]="1";
+            } else {
+                matrizNueva[x-2][y-1]="2";
+            }
+            
             Caballo nuevoCaballo = new Caballo(x-2, y-1);
-            Nodo nodoHijo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas-valor, nuevoCaballo, nodo);
+            
+            Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            if (tipo.equals("MAX")) {
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            } else {
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nodo.getCaballo1(), nuevoCaballo, nodo);
+            }
+            
             nuevosNodos.add(nodoHijo);
                        
         }
         
-        if((x + 2) <= n-1 && (y - 1) >= 0 && evitarCiclos(x+2, y-1, nodo)){
+        if((x + 2) <= n-1 && (y - 1) >= 0 && evitarCiclos(x+2, y-1, nodo, manzanas) && evitarCruces(nodo, x+2, y-1)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -119,14 +127,25 @@ public class LogicaAlgoritmo {
             int valor = 0;
             valor = habiaManzana(matriz[x+2][y-1]);
             matrizNueva[x][y] = "0";
-            matrizNueva[x+2][y-1]="1";
+            
+            if (tipo.equals("MAX")) {
+                matrizNueva[x+2][y-1]="1";
+            } else {
+                matrizNueva[x+2][y-1]="2";
+            }
+            
             Caballo nuevoCaballo = new Caballo(x+2, y-1);
-            Nodo nodoHijo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas-valor, nuevoCaballo, nodo);
+            Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            if (tipo.equals("MAX")) {
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            } else {
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nodo.getCaballo1(), nuevoCaballo, nodo);
+            }
             nuevosNodos.add(nodoHijo);
                        
         }
         
-        if((x + 2) <= n-1 && (y + 1) <= n-1 && evitarCiclos(x+2, y+1, nodo)){
+        if((x + 2) <= n-1 && (y + 1) <= n-1 && evitarCiclos(x+2, y+1, nodo, manzanas) && evitarCruces(nodo, x+2, y+1)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -147,14 +166,25 @@ public class LogicaAlgoritmo {
             valor = habiaManzana(matriz[x+2][y+1]);
             
             matrizNueva[x][y] = "0";
-            matrizNueva[x+2][y+1]="1";
+            
+            if (tipo.equals("MAX")) {
+                matrizNueva[x+2][y+1]="1";
+            } else {
+                matrizNueva[x+2][y+1]="2";
+            }
+            
             Caballo nuevoCaballo = new Caballo(x+2, y+1);
-            Nodo nodoHijo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas-valor, nuevoCaballo, nodo);
+            Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            if (tipo.equals("MAX")) {
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            } else {
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nodo.getCaballo1(), nuevoCaballo, nodo);
+            }
             nuevosNodos.add(nodoHijo);
                        
         }
         
-        if((x + 1) <= n-1 && (y + 2) <= n-1 && evitarCiclos(x+1, y+2, nodo)){
+        if((x + 1) <= n-1 && (y + 2) <= n-1 && evitarCiclos(x+1, y+2, nodo, manzanas) && evitarCruces(nodo, x+1, y+2)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -175,14 +205,25 @@ public class LogicaAlgoritmo {
             valor = habiaManzana(matriz[x+1][y+2]);
             
             matrizNueva[x][y] = "0";
-            matrizNueva[x+1][y+2]="1";
+            
+            if (tipo.equals("MAX")) {
+                matrizNueva[x+1][y+2]="1";
+            } else {
+                matrizNueva[x+1][y+2]="2";
+            }
+            
             Caballo nuevoCaballo = new Caballo(x+1, y+2);
-            Nodo nodoHijo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas-valor, nuevoCaballo, nodo);
+            Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            if (tipo.equals("MAX")) {
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            } else {
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nodo.getCaballo1(), nuevoCaballo, nodo);
+            }
             nuevosNodos.add(nodoHijo);
                        
         }
         
-        if((x - 1) >= 0 && (y + 2) <= n-1 && evitarCiclos(x-1, y+2, nodo)){
+        if((x - 1) >= 0 && (y + 2) <= n-1 && evitarCiclos(x-1, y+2, nodo, manzanas) && evitarCruces(nodo, x-1, y+2)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -202,14 +243,25 @@ public class LogicaAlgoritmo {
             int valor = 0;
             valor = habiaManzana(matriz[x-1][y+2]);
             matrizNueva[x][y] = "0";
-            matrizNueva[x-1][y+2]="1";
+            
+            if (tipo.equals("MAX")) {
+                matrizNueva[x-1][y+2]="1";
+            } else {
+                matrizNueva[x-1][y+2]="2";
+            }
+            
             Caballo nuevoCaballo = new Caballo(x-1, y+2);
-            Nodo nodoHijo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas-valor, nuevoCaballo, nodo);
+            Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            if (tipo.equals("MAX")) {
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            } else {
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nodo.getCaballo1(), nuevoCaballo, nodo);
+            }
             nuevosNodos.add(nodoHijo);
                        
         }
         
-        if((x - 1) >= 0 && (y - 2) >= 0 && evitarCiclos(x-1, y-2, nodo)){
+        if((x - 1) >= 0 && (y - 2) >= 0 && evitarCiclos(x-1, y-2, nodo, manzanas) && evitarCruces(nodo, x-1, y-2)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -229,14 +281,24 @@ public class LogicaAlgoritmo {
             int valor = 0;
             valor = habiaManzana(matriz[x-1][y-2]);
             matrizNueva[x][y] = "0";
-            matrizNueva[x-1][y-2]="1";
+            if (tipo.equals("MAX")) {
+                matrizNueva[x-1][y-2]="1";
+            } else {
+                matrizNueva[x-1][y-2]="2";
+            }
+            
             Caballo nuevoCaballo = new Caballo(x-1, y-2);
-            Nodo nodoHijo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas-valor, nuevoCaballo, nodo);
+            Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            if (tipo.equals("MAX")) {
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            } else {
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nodo.getCaballo1(), nuevoCaballo, nodo);
+            }
             nuevosNodos.add(nodoHijo);
                        
         }
         
-         if((x + 1) <= n-1 && (y - 2) >= 0 && evitarCiclos(x+1, y-2, nodo)){
+         if((x + 1) <= n-1 && (y - 2) >= 0 && evitarCiclos(x+1, y-2, nodo, manzanas) && evitarCruces(nodo, x+1, y-2)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -256,9 +318,21 @@ public class LogicaAlgoritmo {
             valor = habiaManzana(matriz[x+1][y-2]);
              
             matrizNueva[x][y] = "0";
+            
+            if (tipo.equals("MAX")) {
+                matrizNueva[x+1][y-2]="1";
+            } else {
+                matrizNueva[x+1][y-2]="2";
+            }
+            
             matrizNueva[x+1][y-2]="1";
             Caballo nuevoCaballo = new Caballo(x+1, y-2);
-            Nodo nodoHijo = new Nodo(tipo, utilidad, profundidad, matrizNueva, manzanas-valor, nuevoCaballo, nodo);
+            Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            if (tipo.equals("MAX")) {
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
+            } else {
+                nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nodo.getCaballo1(), nuevoCaballo, nodo);
+            }
             nuevosNodos.add(nodoHijo);
                        
         }
@@ -278,21 +352,62 @@ public class LogicaAlgoritmo {
       
     }
     
-    public boolean evitarCiclos(int x, int y, Nodo nodo, int manzanas, String tipo){
+    public boolean evitarCruces(Nodo nodo, int x, int y){
+        
+        
+        if (nodo.getTipo().equals("MAX")) {
+            if (x == nodo.getCaballo2().getPosX() && y == nodo.getCaballo2().getPosY()) {
+                System.out.println("posx: "+ x);
+                System.out.println("posy: "+ y);
+                return false;
+            }
+            else{
+                return true;
+            }
+            
+        }
+        else{
+            if (x == nodo.getCaballo1().getPosX() && y == nodo.getCaballo1().getPosY()) {
+                return false;
+            }
+            else{
+                return true;
+            }
+            
+        }
+        
+        
+    }
+    
+    public boolean evitarCiclos(int x, int y, Nodo nodo, int manzanas){
          
         if (nodo.getPadre() == null){
             return true;
         }
         else{
-            if (nodo.getPadre().getCaballo1().getPosX() == x &&
+            if (nodo.getTipo().equals("MAX")) {
+                if (nodo.getPadre().getCaballo1().getPosX() == x &&
                 nodo.getPadre().getCaballo1().getPosY() == y && 
-                nodo.getPadre().getManzanas() == manzanas &&
-                nodo.getPadre().getTipo().equals(tipo)) {
-                return false;
-            } 
-            else {
-                return evitarCiclos(x, y, nodo.getPadre(), manzanas, tipo);
+                nodo.getPadre().getManzanas() == manzanas) {
+                    return false;
+                } 
+                else {
+                    return evitarCiclos(x, y, nodo.getPadre(), manzanas);
+                }
+                
             }
+            else{
+                if (nodo.getPadre().getCaballo2().getPosX() == x &&
+                nodo.getPadre().getCaballo2().getPosY() == y && 
+                nodo.getPadre().getManzanas() == manzanas) {
+                    return false;
+                } 
+                else {
+                    return evitarCiclos(x, y, nodo.getPadre(), manzanas);
+                }
+                
+            }
+            
         }
     }
     

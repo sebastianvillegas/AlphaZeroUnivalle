@@ -57,7 +57,7 @@ public class Ventana extends javax.swing.JFrame {
         llenarMatriz();
         xInicialBlanco = 0;
         yInicialBlanco = 0;
-        xInicialBlanco = 0;
+        xInicialNegro = 1;
         yInicialNegro = 0;
         Caballo caballo1 = new Caballo(xInicialBlanco,yInicialBlanco);
         Caballo caballo2 = new Caballo(xInicialNegro, yInicialNegro);
@@ -296,20 +296,59 @@ public class Ventana extends javax.swing.JFrame {
         
         while(!pila.isEmpty()){
             ArrayList<Nodo> arreglo= new ArrayList<>();
+            
+            if (pila.peek().getTipo().equals("MAX")) {
+                System.out.println("Turno del 1");
+                
+            }
+            else{
+                System.out.println("Turno del 2");
+            }
+            
+            
+            for (int l = 0; l < n; l++) {
+                for (int m = 0; m < n; m++) {
+                    System.out.print(pila.peek().getEstadoJuego()[l][m] + " ");
+                }
+                System.out.println("");
+            }                            
+            System.out.println("Profundidad: " + pila.peek().getProfundidad());
+            //System.out.println("x1: " + pila.peek().getCaballo1().getPosX());
+            //System.out.println("y1: " + pila.peek().getCaballo1().getPosY());
+            //System.out.println("x2: " + pila.peek().getCaballo2().getPosX());
+            //System.out.println("y2: " + pila.peek().getCaballo2().getPosY());
+            System.out.println("manzanas: " + pila.peek().getManzanas());
+            
+            
+            System.out.println("");
+
+            
             if(pila.peek().getManzanas() > 0){
                 arreglo = logica.expandirNodo(pila.peek());
             }
             
+            
+            System.out.println("expandidos ");
+            for (int i = 0; i < arreglo.size(); i++) {
+                
+                
+                for (int l = 0; l < n; l++) {
+                for (int m = 0; m < n; m++) {
+                    System.out.print(arreglo.get(i).getEstadoJuego()[l][m] + " ");
+                }
+                System.out.println("");
+            } 
+                System.out.println("");
+                
+               
+                
+            }
+            
+            System.out.println("fin");
+            
             arregloFinal.add(pila.pop());
             
             for (int k = 0; k < arreglo.size(); k++) {
-                for (int l = 0; l < n; l++) {
-                    for (int m = 0; m < n; m++) {
-                        System.out.print(arreglo.get(k).getEstadoJuego()[l][m] + " ");
-                    }
-                    System.out.println("");
-                }
-                System.out.println("");
                 pila.push(arreglo.get(k));
             }
         }
@@ -367,7 +406,8 @@ public class Ventana extends javax.swing.JFrame {
                                     
                                     ArrayList<Nodo> fin = new ArrayList<>();
                                     fin = generarArregloFinal();
-                                    //System.out.println(fin.size());
+                                   
+                                    
                                     
                                     
                                     
