@@ -39,7 +39,7 @@ public class LogicaAlgoritmo {
                 utilidad = -90;
             }
         
-        if((x - 2) >= 0 && (y + 1) <= n-1 && evitarCiclos(x-2, y+1, nodo, manzanas) && evitarCruces(nodo, x-2, y+1)){
+        if((x - 2) >= 0 && (y + 1) <= n-1 && evitarCiclos(x-2, y+1, nodo, manzanas, tipo) && evitarCruces(nodo, x-2, y+1)){
             
             String[][] matrizNueva = new String[n][n];
             
@@ -72,8 +72,8 @@ public class LogicaAlgoritmo {
             nuevosNodos.add(nodoHijo);
                        
         }
-        
-        if((x - 2) >= 0 && (y - 1) >= 0 && evitarCiclos(x-2, y-1, nodo, manzanas) && evitarCruces(nodo, x-2, y-1)){
+               
+        if((x - 2) >= 0 && (y - 1) >= 0 && evitarCiclos(x-2, y-1, nodo, manzanas, tipo) && evitarCruces(nodo, x-2, y-1)){
             
             String[][] matrizNueva = new String[n][n];
             
@@ -106,7 +106,7 @@ public class LogicaAlgoritmo {
                        
         }
         
-        if((x + 2) <= n-1 && (y - 1) >= 0 && evitarCiclos(x+2, y-1, nodo, manzanas) && evitarCruces(nodo, x+2, y-1)){
+        if((x + 2) <= n-1 && (y - 1) >= 0 && evitarCiclos(x+2, y-1, nodo, manzanas, tipo) && evitarCruces(nodo, x+2, y-1)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -145,7 +145,7 @@ public class LogicaAlgoritmo {
                        
         }
         
-        if((x + 2) <= n-1 && (y + 1) <= n-1 && evitarCiclos(x+2, y+1, nodo, manzanas) && evitarCruces(nodo, x+2, y+1)){
+        if((x + 2) <= n-1 && (y + 1) <= n-1 && evitarCiclos(x+2, y+1, nodo, manzanas, tipo) && evitarCruces(nodo, x+2, y+1)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -184,7 +184,7 @@ public class LogicaAlgoritmo {
                        
         }
         
-        if((x + 1) <= n-1 && (y + 2) <= n-1 && evitarCiclos(x+1, y+2, nodo, manzanas) && evitarCruces(nodo, x+1, y+2)){
+        if((x + 1) <= n-1 && (y + 2) <= n-1 && evitarCiclos(x+1, y+2, nodo, manzanas, tipo) && evitarCruces(nodo, x+1, y+2)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -223,7 +223,7 @@ public class LogicaAlgoritmo {
                        
         }
         
-        if((x - 1) >= 0 && (y + 2) <= n-1 && evitarCiclos(x-1, y+2, nodo, manzanas) && evitarCruces(nodo, x-1, y+2)){
+        if((x - 1) >= 0 && (y + 2) <= n-1 && evitarCiclos(x-1, y+2, nodo, manzanas, tipo) && evitarCruces(nodo, x-1, y+2)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -261,7 +261,7 @@ public class LogicaAlgoritmo {
                        
         }
         
-        if((x - 1) >= 0 && (y - 2) >= 0 && evitarCiclos(x-1, y-2, nodo, manzanas) && evitarCruces(nodo, x-1, y-2)){
+        if((x - 1) >= 0 && (y - 2) >= 0 && evitarCiclos(x-1, y-2, nodo, manzanas, tipo) && evitarCruces(nodo, x-1, y-2)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -298,7 +298,7 @@ public class LogicaAlgoritmo {
                        
         }
         
-         if((x + 1) <= n-1 && (y - 2) >= 0 && evitarCiclos(x+1, y-2, nodo, manzanas) && evitarCruces(nodo, x+1, y-2)){
+         if((x + 1) <= n-1 && (y - 2) >= 0 && evitarCiclos(x+1, y-2, nodo, manzanas, tipo) && evitarCruces(nodo, x+1, y-2)){
             if(tipo.equals("MAX")){
                 utilidad = 90;
             }
@@ -357,8 +357,6 @@ public class LogicaAlgoritmo {
         
         if (nodo.getTipo().equals("MAX")) {
             if (x == nodo.getCaballo2().getPosX() && y == nodo.getCaballo2().getPosY()) {
-                System.out.println("posx: "+ x);
-                System.out.println("posy: "+ y);
                 return false;
             }
             else{
@@ -379,20 +377,21 @@ public class LogicaAlgoritmo {
         
     }
     
-    public boolean evitarCiclos(int x, int y, Nodo nodo, int manzanas){
+    public boolean evitarCiclos(int x, int y, Nodo nodo, int manzanas, String tipo){
          
         if (nodo.getPadre() == null){
             return true;
         }
         else{
-            if (nodo.getTipo().equals("MAX")) {
+            if (tipo.equals("MAX")) {
                 if (nodo.getPadre().getCaballo1().getPosX() == x &&
                 nodo.getPadre().getCaballo1().getPosY() == y && 
                 nodo.getPadre().getManzanas() == manzanas) {
+                    
                     return false;
                 } 
                 else {
-                    return evitarCiclos(x, y, nodo.getPadre(), manzanas);
+                    return evitarCiclos(x, y, nodo.getPadre(), manzanas, tipo);
                 }
                 
             }
@@ -403,7 +402,7 @@ public class LogicaAlgoritmo {
                     return false;
                 } 
                 else {
-                    return evitarCiclos(x, y, nodo.getPadre(), manzanas);
+                    return evitarCiclos(x, y, nodo.getPadre(), manzanas, tipo);
                 }
                 
             }
