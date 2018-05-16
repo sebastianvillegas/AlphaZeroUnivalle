@@ -12,9 +12,15 @@ public class LogicaAlgoritmo {
         
     }
     
-    public void calcularUtilidad(){
+    /*public Nodo calcularUtilidad(Nodo nodo){
+        if(nodo.getPadre() == null){
+            return nodo;
+        }
+        else{
+            
+        }
         
-    }
+    }*/
 
     public ArrayList<Nodo> expandirNodo(Nodo nodo){
         

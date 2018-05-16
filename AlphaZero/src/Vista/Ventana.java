@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
 import java.util.logging.*;
 import javax.swing.*;
@@ -183,7 +184,7 @@ public class Ventana extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(panelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 258, Short.MAX_VALUE)
                     .addComponent(panelMatriz, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addComponent(label)
@@ -407,12 +408,21 @@ public class Ventana extends javax.swing.JFrame {
                                     ArrayList<Nodo> fin = new ArrayList<>();
                                     fin = generarArregloFinal();
                                     
+                                    Collections.sort(fin, (Nodo z1, Nodo z2) -> {
+                                        if(z1.getProfundidad() < z2.getProfundidad()){
+                                            return 1;
+                                        }
+                                        if(z1.getProfundidad() > z2.getProfundidad()){
+                                            return -1;
+                                        }  
+                                        return 0;
+                                    });
+                                    
+                                    
                                     System.out.println(fin.size());
                                     for (int k = 0; k < fin.size(); k++) {
                                         System.out.println("Tipo: " + fin.get(k).getTipo() +" Profundidad: "  + fin.get(k).getProfundidad() +
                                                 " Utilidad: " + fin.get(k).getUtilidad());
-                                        
-                                        
                                         
                                     }
                                    
