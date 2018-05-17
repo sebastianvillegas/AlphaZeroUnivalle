@@ -392,6 +392,33 @@ public class LogicaAlgoritmo {
             return "MAX";
         }
     }
+
+    public void calcularUtilidades(ArrayList<Nodo> fin) {
+        for (int i = 0; i < fin.size(); i++) {
+            subirUtilidad(fin.get(i));
+            
+        }
+        
+    }
+
+    private void subirUtilidad(Nodo nodo) {
+        if (nodo.getPadre().getTipo().equals("MAX")) {
+            
+            if (nodo.getPadre().getUtilidad() < nodo.getUtilidad()) {
+                nodo.getPadre().setUtilidad(nodo.getUtilidad());
+            }
+            
+        }
+        else{
+            
+            if (nodo.getPadre().getUtilidad() > nodo.getUtilidad()) {
+                nodo.getPadre().setUtilidad(nodo.getUtilidad());
+            }
+            
+        }
+        
+    }
+
     
     
 

@@ -418,6 +418,7 @@ public class Ventana extends javax.swing.JFrame {
                                         return 0;
                                     });
                                     
+                                    logica.calcularUtilidades(fin);
                                     
                                     System.out.println(fin.size());
                                     for (int k = 0; k < fin.size(); k++) {
