@@ -402,7 +402,8 @@ public class LogicaAlgoritmo {
     }
 
     private void subirUtilidad(Nodo nodo) {
-        if (nodo.getPadre().getTipo().equals("MAX")) {
+        if (nodo.getPadre()!= null) {
+            if (nodo.getPadre().getTipo().equals("MAX")) {
             
             if (nodo.getPadre().getUtilidad() < nodo.getUtilidad()) {
                 nodo.getPadre().setUtilidad(nodo.getUtilidad());
@@ -416,6 +417,9 @@ public class LogicaAlgoritmo {
             }
             
         }
+            
+        }
+        
         
     }
 
