@@ -60,8 +60,8 @@ public class Ventana extends javax.swing.JFrame {
         yInicialBlanco = 0;
         xInicialNegro = 1;
         yInicialNegro = 0;
-        Caballo caballo1 = new Caballo(xInicialBlanco,yInicialBlanco);
-        Caballo caballo2 = new Caballo(xInicialNegro, yInicialNegro);
+        Caballo caballo1 = new Caballo(xInicialBlanco,yInicialBlanco, 0);
+        Caballo caballo2 = new Caballo(xInicialNegro, yInicialNegro, 0);
         Nodo raiz = new Nodo("MAX", -90, 0, matriz, manzanas, caballo1, caballo2, null);
         pila.push(raiz);
         
@@ -318,7 +318,9 @@ public class Ventana extends javax.swing.JFrame {
             //System.out.println("y1: " + pila.peek().getCaballo1().getPosY());
             //System.out.println("x2: " + pila.peek().getCaballo2().getPosX());
             //System.out.println("y2: " + pila.peek().getCaballo2().getPosY());
-            System.out.println("manzanas: " + pila.peek().getManzanas());
+            System.out.println("manzanas: " + pila.peek().getManzanas() + 
+                                                "Manzanas caballo 1: " + pila.peek().getCaballo1().getManzanasComidas() +
+                                                "Manzanas caballo 2: " + pila.peek().getCaballo2().getManzanasComidas());
             
             
             System.out.println("");
@@ -326,6 +328,10 @@ public class Ventana extends javax.swing.JFrame {
             
             if(pila.peek().getManzanas() > 0){
                 arreglo = logica.expandirNodo(pila.peek());
+                
+            }
+            else{
+                logica.cambiarUtilidadHojas(pila.peek());
             }
             
             
@@ -422,8 +428,11 @@ public class Ventana extends javax.swing.JFrame {
                                     
                                     System.out.println(fin.size());
                                     for (int k = 0; k < fin.size(); k++) {
-                                        System.out.println("Tipo: " + fin.get(k).getTipo() +" Profundidad: "  + fin.get(k).getProfundidad() +
-                                                " Utilidad: " + fin.get(k).getUtilidad());
+                                        System.out.println("Tipo: " + fin.get(k).getTipo() +" Profundidad: "  +
+                                                fin.get(k).getProfundidad() +
+                                                " Utilidad: " + fin.get(k).getUtilidad() + 
+                                                "Manzanas caballo 1: " + fin.get(k).getCaballo1().getManzanasComidas() +
+                                                "Manzanas caballo 2: " + fin.get(k).getCaballo2().getManzanasComidas());
                                         
                                     }
                                    

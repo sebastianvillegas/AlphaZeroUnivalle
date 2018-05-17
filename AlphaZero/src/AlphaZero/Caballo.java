@@ -6,9 +6,10 @@ public class Caballo {
     private int posY;
     private int manzanasComidas;
     
-    public Caballo(int x, int y){
+    public Caballo(int x, int y, int manzanas){
         posX = x;
         posY = y;
+        manzanasComidas = manzanas;
         
     }
 

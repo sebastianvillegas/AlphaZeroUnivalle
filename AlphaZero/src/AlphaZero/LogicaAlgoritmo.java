@@ -30,6 +30,8 @@ public class LogicaAlgoritmo {
         int y = 0;
         int profundidad = nodo.getProfundidad()+1; 
         int manzanas = nodo.getManzanas();
+        int manzanasComidas1 = nodo.getCaballo1().getManzanasComidas();
+        int manzanasComidas2 = nodo.getCaballo2().getManzanasComidas();
         ArrayList<Nodo> nuevosNodos= new ArrayList<>();
         int utilidad = 0;
         
@@ -65,11 +67,14 @@ public class LogicaAlgoritmo {
             matrizNueva[x][y] = "0";
             if (tipo.equals("MAX")) {
                 matrizNueva[x-2][y+1]="1";
-            } else {
+            } 
+            else {
                 matrizNueva[x-2][y+1]="2";
             }
             
-            Caballo nuevoCaballo = new Caballo(x-2, y+1);
+            Caballo nuevoCaballo = crearCaballo(x-2, y+1, nodo, valor);
+            
+            
             
             Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
             if (tipo.equals("MAX")) {
@@ -103,7 +108,7 @@ public class LogicaAlgoritmo {
                 matrizNueva[x-2][y-1]="2";
             }
             
-            Caballo nuevoCaballo = new Caballo(x-2, y-1);
+            Caballo nuevoCaballo = crearCaballo(x-2, y-1, nodo, valor);
             
             Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
             if (tipo.equals("MAX")) {
@@ -138,7 +143,7 @@ public class LogicaAlgoritmo {
                 matrizNueva[x+2][y-1]="2";
             }
             
-            Caballo nuevoCaballo = new Caballo(x+2, y-1);
+            Caballo nuevoCaballo = crearCaballo(x+2, y-1, nodo, valor);
             Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
             if (tipo.equals("MAX")) {
                 nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
@@ -171,7 +176,7 @@ public class LogicaAlgoritmo {
                 matrizNueva[x+2][y+1]="2";
             }
             
-            Caballo nuevoCaballo = new Caballo(x+2, y+1);
+            Caballo nuevoCaballo = crearCaballo(x+2, y+1, nodo, valor);
             Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
             if (tipo.equals("MAX")) {
                 nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
@@ -204,7 +209,7 @@ public class LogicaAlgoritmo {
                 matrizNueva[x+1][y+2]="2";
             }
             
-            Caballo nuevoCaballo = new Caballo(x+1, y+2);
+            Caballo nuevoCaballo = crearCaballo(x+1, y+2, nodo, valor);
             Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
             if (tipo.equals("MAX")) {
                 nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
@@ -236,7 +241,7 @@ public class LogicaAlgoritmo {
                 matrizNueva[x-1][y+2]="2";
             }
             
-            Caballo nuevoCaballo = new Caballo(x-1, y+2);
+            Caballo nuevoCaballo = crearCaballo(x-1, y+2, nodo, valor);
             Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
             if (tipo.equals("MAX")) {
                 nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
@@ -267,7 +272,7 @@ public class LogicaAlgoritmo {
                 matrizNueva[x-1][y-2]="2";
             }
             
-            Caballo nuevoCaballo = new Caballo(x-1, y-2);
+            Caballo nuevoCaballo = crearCaballo(x-1, y-2, nodo, valor);
             Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
             if (tipo.equals("MAX")) {
                 nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
@@ -300,7 +305,7 @@ public class LogicaAlgoritmo {
             }
             
             matrizNueva[x+1][y-2]="1";
-            Caballo nuevoCaballo = new Caballo(x+1, y-2);
+            Caballo nuevoCaballo = crearCaballo(x+1, y-2, nodo, valor);
             Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
             if (tipo.equals("MAX")) {
                 nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
@@ -421,6 +426,38 @@ public class LogicaAlgoritmo {
         }
         
         
+    }
+
+    private Caballo crearCaballo(int x, int y, Nodo nodo, int valor) {
+        Caballo nuevoCaballo = new Caballo(x, y, nodo.getCaballo1().getManzanasComidas());
+        
+        if (nodo.getTipo().equals("MAX")) {
+                if (valor == 1) {
+                    nuevoCaballo = new Caballo(x, y, nodo.getCaballo1().getManzanasComidas() + 1);
+                }
+                else{
+                    nuevoCaballo = new Caballo(x, y, nodo.getCaballo1().getManzanasComidas());
+                }
+            } 
+            else {
+                if (valor == 1) {
+                    nuevoCaballo = new Caballo(x, y, nodo.getCaballo2().getManzanasComidas() + 1);
+                }
+                else{
+                    nuevoCaballo = new Caballo(x, y, nodo.getCaballo2().getManzanasComidas());
+                }
+            }
+        return nuevoCaballo;
+    }
+
+    public void cambiarUtilidadHojas(Nodo hoja) {
+        if (hoja.getCaballo1().getManzanasComidas()>hoja.getCaballo2().getManzanasComidas()) {
+            hoja.setUtilidad(1);
+            
+        }
+        else {
+            hoja.setUtilidad(-1);
+        }
     }
 
     
