@@ -435,6 +435,8 @@ public class Ventana extends javax.swing.JFrame {
                                                 "Manzanas caballo 2: " + fin.get(k).getCaballo2().getManzanasComidas());
                                         
                                     }
+                                    
+                                    System.out.println("X: " + logica.getxDecisionTomar() + "Y: " + logica.getyDecisionTomar());
                                    
                                     
                                     

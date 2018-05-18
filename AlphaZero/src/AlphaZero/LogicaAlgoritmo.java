@@ -6,6 +6,8 @@ import java.util.ArrayList;
 public class LogicaAlgoritmo {
     
     public static int n;
+    private int xDecisionTomar;
+    private int yDecisionTomar;
     
     public LogicaAlgoritmo(int n){
         this.n = n;
@@ -407,6 +409,20 @@ public class LogicaAlgoritmo {
     }
 
     private void subirUtilidad(Nodo nodo) {
+        
+        
+        
+        if (nodo.getProfundidad() == 1) {
+            if (nodo.getUtilidad() > nodo.getPadre().getUtilidad()) {
+                                
+           this.setxDecisionTomar(nodo.getCaballo1().getPosX());
+           this.setyDecisionTomar(nodo.getCaballo1().getPosY());
+                
+            }
+            
+            
+        }
+        
         if (nodo.getPadre()!= null) {
             if (nodo.getPadre().getTipo().equals("MAX")) {
             
@@ -424,6 +440,7 @@ public class LogicaAlgoritmo {
         }
             
         }
+        
         
         
     }
@@ -458,6 +475,34 @@ public class LogicaAlgoritmo {
         else {
             hoja.setUtilidad(-1);
         }
+    }
+
+    /**
+     * @return the xDecisionTomar
+     */
+    public int getxDecisionTomar() {
+        return xDecisionTomar;
+    }
+
+    /**
+     * @param xDecisionTomar the xDecisionTomar to set
+     */
+    public void setxDecisionTomar(int xDecisionTomar) {
+        this.xDecisionTomar = xDecisionTomar;
+    }
+
+    /**
+     * @return the yDecisionTomar
+     */
+    public int getyDecisionTomar() {
+        return yDecisionTomar;
+    }
+
+    /**
+     * @param yDecisionTomar the yDecisionTomar to set
+     */
+    public void setyDecisionTomar(int yDecisionTomar) {
+        this.yDecisionTomar = yDecisionTomar;
     }
 
     
