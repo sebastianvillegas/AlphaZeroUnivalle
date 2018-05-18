@@ -9,12 +9,13 @@ public class AlphaZero {
     
     public static void main(String[] args) throws IOException {
         
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); //Ya tenemos el "lector"
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
 
-        System.out.println("Número de filas y columnas");//Se pide un dato al usuario
-
-        int n = Integer.parseInt(br.readLine()); //Se lee el nombre con readLine() que retorna un String con el dato
-        Ventana v = new Ventana(n);
+        System.out.println("Ingrese el número de filas y columnas");
+        int n = Integer.parseInt(br.readLine());
+        System.out.println("Ingrese el número de manzanas");
+        int manzanas = Integer.parseInt(br.readLine());
+        Ventana v = new Ventana(n, manzanas);
         v.setVisible(true);
         
     }
