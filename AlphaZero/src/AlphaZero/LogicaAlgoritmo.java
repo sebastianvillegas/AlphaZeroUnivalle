@@ -15,7 +15,8 @@ public class LogicaAlgoritmo {
     private int xInicialNegro;
     private int yInicialNegro;
     private Stack<Nodo> pila;
-    
+    private int contadorProfundidad1;
+    private int nodos;
 
     public LogicaAlgoritmo(int n, int manzanas) {
         this.manzanas = manzanas;
@@ -23,14 +24,17 @@ public class LogicaAlgoritmo {
         pila = new Stack<>();
         xInicialBlanco = 0;
         yInicialBlanco = 0;
-        xInicialNegro = 1;
+        xInicialNegro = 0;
         yInicialNegro = 0;
-
+        contadorProfundidad1 = 0;
+        nodos = 0;
     }
+    
+    
 
     public ArrayList<Nodo> expandirNodo(Nodo nodo) {
 
-        String[][] matriz = nodo.getEstadoJuego();
+        int[][] matriz = nodo.getEstadoJuego();
         String tipo = nodo.getTipo();
         int x = 0;
         int y = 0;
@@ -57,7 +61,7 @@ public class LogicaAlgoritmo {
 
         if ((x - 2) >= 0 && (y + 1) <= n - 1 && evitarCiclos(x - 2, y + 1, nodo, manzanas, tipo) && evitarCruces(nodo, x - 2, y + 1)) {
 
-            String[][] matrizNueva = new String[n][n];
+            int[][] matrizNueva = new int[n][n];
 
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
@@ -68,11 +72,11 @@ public class LogicaAlgoritmo {
             int valor = 0;
             valor = habiaManzana(matriz[x - 2][y + 1]);
 
-            matrizNueva[x][y] = "0";
+            matrizNueva[x][y] = 0;
             if (tipo.equals("MAX")) {
-                matrizNueva[x - 2][y + 1] = "1";
+                matrizNueva[x - 2][y + 1] = 1;
             } else {
-                matrizNueva[x - 2][y + 1] = "2";
+                matrizNueva[x - 2][y + 1] = 2;
             }
 
             Caballo nuevoCaballo = crearCaballo(x - 2, y + 1, nodo, valor);
@@ -90,7 +94,7 @@ public class LogicaAlgoritmo {
 
         if ((x - 2) >= 0 && (y - 1) >= 0 && evitarCiclos(x - 2, y - 1, nodo, manzanas, tipo) && evitarCruces(nodo, x - 2, y - 1)) {
 
-            String[][] matrizNueva = new String[n][n];
+            int[][] matrizNueva = new int[n][n];
 
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
@@ -100,12 +104,12 @@ public class LogicaAlgoritmo {
 
             int valor = 0;
             valor = habiaManzana(matriz[x - 2][y - 1]);
-            matrizNueva[x][y] = "0";
+            matrizNueva[x][y] = 0;
 
             if (tipo.equals("MAX")) {
-                matrizNueva[x - 2][y - 1] = "1";
+                matrizNueva[x - 2][y - 1] = 1;
             } else {
-                matrizNueva[x - 2][y - 1] = "2";
+                matrizNueva[x - 2][y - 1] = 2;
             }
 
             Caballo nuevoCaballo = crearCaballo(x - 2, y - 1, nodo, valor);
@@ -123,7 +127,7 @@ public class LogicaAlgoritmo {
 
         if ((x + 2) <= n - 1 && (y - 1) >= 0 && evitarCiclos(x + 2, y - 1, nodo, manzanas, tipo) && evitarCruces(nodo, x + 2, y - 1)) {
 
-            String[][] matrizNueva = new String[n][n];
+            int[][] matrizNueva = new int[n][n];
 
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
@@ -135,12 +139,12 @@ public class LogicaAlgoritmo {
 
             int valor = 0;
             valor = habiaManzana(matriz[x + 2][y - 1]);
-            matrizNueva[x][y] = "0";
+            matrizNueva[x][y] = 0;
 
             if (tipo.equals("MAX")) {
-                matrizNueva[x + 2][y - 1] = "1";
+                matrizNueva[x + 2][y - 1] = 1;
             } else {
-                matrizNueva[x + 2][y - 1] = "2";
+                matrizNueva[x + 2][y - 1] = 2;
             }
 
             Caballo nuevoCaballo = crearCaballo(x + 2, y - 1, nodo, valor);
@@ -156,7 +160,7 @@ public class LogicaAlgoritmo {
 
         if ((x + 2) <= n - 1 && (y + 1) <= n - 1 && evitarCiclos(x + 2, y + 1, nodo, manzanas, tipo) && evitarCruces(nodo, x + 2, y + 1)) {
 
-            String[][] matrizNueva = new String[n][n];
+            int[][] matrizNueva = new int[n][n];
 
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
@@ -168,12 +172,12 @@ public class LogicaAlgoritmo {
             int valor = 0;
             valor = habiaManzana(matriz[x + 2][y + 1]);
 
-            matrizNueva[x][y] = "0";
+            matrizNueva[x][y] = 0;
 
             if (tipo.equals("MAX")) {
-                matrizNueva[x + 2][y + 1] = "1";
+                matrizNueva[x + 2][y + 1] = 1;
             } else {
-                matrizNueva[x + 2][y + 1] = "2";
+                matrizNueva[x + 2][y + 1] = 2;
             }
 
             Caballo nuevoCaballo = crearCaballo(x + 2, y + 1, nodo, valor);
@@ -189,7 +193,7 @@ public class LogicaAlgoritmo {
 
         if ((x + 1) <= n - 1 && (y + 2) <= n - 1 && evitarCiclos(x + 1, y + 2, nodo, manzanas, tipo) && evitarCruces(nodo, x + 1, y + 2)) {
 
-            String[][] matrizNueva = new String[n][n];
+            int[][] matrizNueva = new int[n][n];
 
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
@@ -201,12 +205,12 @@ public class LogicaAlgoritmo {
             int valor = 0;
             valor = habiaManzana(matriz[x + 1][y + 2]);
 
-            matrizNueva[x][y] = "0";
+            matrizNueva[x][y] = 0;
 
             if (tipo.equals("MAX")) {
-                matrizNueva[x + 1][y + 2] = "1";
+                matrizNueva[x + 1][y + 2] = 1;
             } else {
-                matrizNueva[x + 1][y + 2] = "2";
+                matrizNueva[x + 1][y + 2] = 2;
             }
 
             Caballo nuevoCaballo = crearCaballo(x + 1, y + 2, nodo, valor);
@@ -222,7 +226,7 @@ public class LogicaAlgoritmo {
 
         if ((x - 1) >= 0 && (y + 2) <= n - 1 && evitarCiclos(x - 1, y + 2, nodo, manzanas, tipo) && evitarCruces(nodo, x - 1, y + 2)) {
 
-            String[][] matrizNueva = new String[n][n];
+            int[][] matrizNueva = new int[n][n];
 
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
@@ -233,12 +237,12 @@ public class LogicaAlgoritmo {
             }
             int valor = 0;
             valor = habiaManzana(matriz[x - 1][y + 2]);
-            matrizNueva[x][y] = "0";
+            matrizNueva[x][y] = 0;
 
             if (tipo.equals("MAX")) {
-                matrizNueva[x - 1][y + 2] = "1";
+                matrizNueva[x - 1][y + 2] = 1;
             } else {
-                matrizNueva[x - 1][y + 2] = "2";
+                matrizNueva[x - 1][y + 2] = 2;
             }
 
             Caballo nuevoCaballo = crearCaballo(x - 1, y + 2, nodo, valor);
@@ -254,7 +258,7 @@ public class LogicaAlgoritmo {
 
         if ((x - 1) >= 0 && (y - 2) >= 0 && evitarCiclos(x - 1, y - 2, nodo, manzanas, tipo) && evitarCruces(nodo, x - 1, y - 2)) {
 
-            String[][] matrizNueva = new String[n][n];
+            int[][] matrizNueva = new int[n][n];
 
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
@@ -265,11 +269,11 @@ public class LogicaAlgoritmo {
             }
             int valor = 0;
             valor = habiaManzana(matriz[x - 1][y - 2]);
-            matrizNueva[x][y] = "0";
+            matrizNueva[x][y] = 0;
             if (tipo.equals("MAX")) {
-                matrizNueva[x - 1][y - 2] = "1";
+                matrizNueva[x - 1][y - 2] = 1;
             } else {
-                matrizNueva[x - 1][y - 2] = "2";
+                matrizNueva[x - 1][y - 2] = 2;
             }
 
             Caballo nuevoCaballo = crearCaballo(x - 1, y - 2, nodo, valor);
@@ -285,7 +289,7 @@ public class LogicaAlgoritmo {
 
         if ((x + 1) <= n - 1 && (y - 2) >= 0 && evitarCiclos(x + 1, y - 2, nodo, manzanas, tipo) && evitarCruces(nodo, x + 1, y - 2)) {
 
-            String[][] matrizNueva = new String[n][n];
+            int[][] matrizNueva = new int[n][n];
 
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
@@ -296,15 +300,14 @@ public class LogicaAlgoritmo {
             int valor = 0;
             valor = habiaManzana(matriz[x + 1][y - 2]);
 
-            matrizNueva[x][y] = "0";
+            matrizNueva[x][y] = 0;
 
             if (tipo.equals("MAX")) {
-                matrizNueva[x + 1][y - 2] = "1";
+                matrizNueva[x + 1][y - 2] = 1;
             } else {
-                matrizNueva[x + 1][y - 2] = "2";
+                matrizNueva[x + 1][y - 2] = 2;
             }
 
-            matrizNueva[x + 1][y - 2] = "1";
             Caballo nuevoCaballo = crearCaballo(x + 1, y - 2, nodo, valor);
             Nodo nodoHijo = new Nodo(cambiarTipo(tipo), utilidad, profundidad, matrizNueva, manzanas - valor, nuevoCaballo, nodo.getCaballo2(), nodo);
             if (tipo.equals("MAX")) {
@@ -320,8 +323,8 @@ public class LogicaAlgoritmo {
 
     }
 
-    private int habiaManzana(String string) {
-        if (string.equals("3")) {
+    private int habiaManzana(int numero) {
+        if (numero==3) {
             return 1;
         } else {
             return 0;
@@ -388,6 +391,17 @@ public class LogicaAlgoritmo {
     }
 
     public void calcularUtilidades(ArrayList<Nodo> fin) {
+        
+        Collections.sort(fin, (Nodo z1, Nodo z2) -> {
+            if (z1.getProfundidad() < z2.getProfundidad()) {
+                return 1;
+            }
+            if (z1.getProfundidad() > z2.getProfundidad()) {
+                return -1;
+            }
+            return 0;
+        });
+        
         for (int i = 0; i < fin.size(); i++) {
             subirUtilidad(fin.get(i));
 
@@ -399,7 +413,6 @@ public class LogicaAlgoritmo {
 
         if (nodo.getProfundidad() == 1) {
             if (nodo.getUtilidad() > nodo.getPadre().getUtilidad()) {
-
                 this.setxDecisionTomar(nodo.getCaballo1().getPosX());
                 this.setyDecisionTomar(nodo.getCaballo1().getPosY());
 
@@ -445,12 +458,21 @@ public class LogicaAlgoritmo {
         return nuevoCaballo;
     }
 
-    public void cambiarUtilidadHojas(Nodo hoja) {
+    public void calcularUtilidadHojas(Nodo hoja) {
         if (hoja.getCaballo1().getManzanasComidas() > hoja.getCaballo2().getManzanasComidas()) {
-            hoja.setUtilidad(1);
-        } else {
-            hoja.setUtilidad(-1);
+            hoja.setUtilidad(1000);
+            
         }
+        else{
+            hoja.setUtilidad(hoja.getCaballo1().getManzanasComidas() - hoja.getCaballo2().getManzanasComidas());
+        }
+        
+        
+    }
+    
+    public void calcularUtilidadHojasPerdidas(Nodo hoja){
+        hoja.setUtilidad(hoja.getCaballo1().getManzanasComidas() - hoja.getCaballo2().getManzanasComidas());
+        
     }
 
     public ArrayList<Nodo> generarArregloFinal() {
@@ -460,7 +482,7 @@ public class LogicaAlgoritmo {
         while (!pila.isEmpty()) {
             ArrayList<Nodo> arreglo = new ArrayList<>();//Arreglo para guardar los nodos expandidos
 
-            //Prints para probar
+            /*//Prints para probar
             if (pila.peek().getTipo().equals("MAX")) {
                 System.out.println("Turno del 1");
 
@@ -475,19 +497,55 @@ public class LogicaAlgoritmo {
                 System.out.println("");
             }
 
-            System.out.println("Profundidad: " + pila.peek().getProfundidad());
-            System.out.println("manzanas: " + pila.peek().getManzanas()
-                    + "Manzanas caballo 1: " + pila.peek().getCaballo1().getManzanasComidas()
-                    + " Manzanas caballo 2: " + pila.peek().getCaballo2().getManzanasComidas());
-
+            System.out.println("Profundidad: " + pila.peek().getProfundidad());*/
+            
+            
             //Si todavía quedan manzanas en el juego, se sigue expandiendo esa rama.
-            if (pila.peek().getManzanas() > 0) {
+            if (pila.peek().getProfundidad() == 1) {
+                contadorProfundidad1++;
+
+            }
+/*
+           if (contadorProfundidad1 == 2) {
+
+                calcularUtilidades(arregloFinal);
+                
+        /*for (int k = 0; k < arregloFinal.size(); k++) {
+            System.out.println("Tipo: " + arregloFinal.get(k).getTipo() + " Profundidad: "
+                    + arregloFinal.get(k).getProfundidad()
+                    + " Utilidad: " + arregloFinal.get(k).getUtilidad()
+                    + "Manzanas caballo 1: " + arregloFinal.get(k).getCaballo1().getManzanasComidas()
+                    + "Manzanas caballo 2: " + arregloFinal.get(k).getCaballo2().getManzanasComidas());
+
+        }
+        
+                System.out.println("X: " + getxDecisionTomar() + "Y: " + getyDecisionTomar());
+                
+                
+                
+                    arregloFinal.clear();
+                 contadorProfundidad1 = 1;
+            }*/
+
+           
+           
+            if (pila.peek().getManzanas() > 0 /*&& pila.peek().getProfundidad() < 18*/) {
                 arreglo = expandirNodo(pila.peek());
             } //En caso de que no hayan manzanas, se llega a una hoja así que se debe calcular su utilidad
             else {
-                cambiarUtilidadHojas(pila.peek());
+                if (pila.peek().getManzanas()==0) {
+                calcularUtilidadHojas(pila.peek());
             }
+                else{
+                    calcularUtilidadHojasPerdidas(pila.peek());
+                }
+                
+            }
+            
+            
+            
 
+/*
             //Imprimir los nodos expandidos
             System.out.println("Nodos generados ");
             for (int i = 0; i < arreglo.size(); i++) {
@@ -500,10 +558,14 @@ public class LogicaAlgoritmo {
                 System.out.println("");
             }
 
-            System.out.println("Fin de mostrar los nodos generados.");
+            System.out.println("Fin de mostrar los nodos generados.");*/
 
             //El nodo que fue expandido se agrega al arreglo final y es borrado de la pila.
-            arregloFinal.add(pila.pop());
+            if (pila.peek().getPadre() != null) {
+                arregloFinal.add(pila.peek());
+            }
+            nodos ++;
+            pila.pop();
 
             //Se agregan a la pila los nodos generados
             for (int k = 0; k < arreglo.size(); k++) {
@@ -514,37 +576,36 @@ public class LogicaAlgoritmo {
 
     }
 
-    public void tomarDecision(String[][] matriz) {
+    public void tomarDecision(int[][] matriz) {
         Caballo caballo1 = new Caballo(xInicialBlanco, yInicialBlanco, 0);
         Caballo caballo2 = new Caballo(xInicialNegro, yInicialNegro, 0);
-        Nodo raiz = new Nodo("MAX", -90, 0, matriz, manzanas, caballo1, caballo2, null);
+        Nodo raiz = new Nodo("MAX", -90, 0, matriz, getManzanas(), caballo1, caballo2, null);
         pila.push(raiz);
         ArrayList<Nodo> fin = new ArrayList<>();
         fin = generarArregloFinal();
-
-        Collections.sort(fin, (Nodo z1, Nodo z2) -> {
-            if (z1.getProfundidad() < z2.getProfundidad()) {
-                return 1;
-            }
-            if (z1.getProfundidad() > z2.getProfundidad()) {
-                return -1;
-            }
-            return 0;
-        });
-
         calcularUtilidades(fin);
-
-        System.out.println(fin.size());
+        
         for (int k = 0; k < fin.size(); k++) {
             System.out.println("Tipo: " + fin.get(k).getTipo() + " Profundidad: "
                     + fin.get(k).getProfundidad()
                     + " Utilidad: " + fin.get(k).getUtilidad()
-                    + "Manzanas caballo 1: " + fin.get(k).getCaballo1().getManzanasComidas()
-                    + "Manzanas caballo 2: " + fin.get(k).getCaballo2().getManzanasComidas());
-
+                    + " Manzanas caballo 1: " + fin.get(k).getCaballo1().getManzanasComidas()
+                    + " Manzanas caballo 2: " + fin.get(k).getCaballo2().getManzanasComidas()
+                    + " X: " + fin.get(k).getCaballo1().getPosX() + "Y: " + fin.get(k).getCaballo1().getPosY());
         }
 
+        System.out.println(nodos);
+
+        xInicialBlanco = getxDecisionTomar();
+        yInicialBlanco = getyDecisionTomar();
+        nodos = 0;
+        contadorProfundidad1 = 0;
+        if (matriz[getxDecisionTomar()][getyDecisionTomar()] == 3) {
+            setManzanas(getManzanas() - 1);
+        }
         System.out.println("X: " + getxDecisionTomar() + "Y: " + getyDecisionTomar());
+        System.out.println(raiz.getUtilidad());
+        
     }
 
     /**
@@ -629,6 +690,20 @@ public class LogicaAlgoritmo {
      */
     public void setyDecisionTomar(int yDecisionTomar) {
         this.yDecisionTomar = yDecisionTomar;
+    }
+
+    /**
+     * @return the manzanas
+     */
+    public static int getManzanas() {
+        return manzanas;
+    }
+
+    /**
+     * @param aManzanas the manzanas to set
+     */
+    public static void setManzanas(int aManzanas) {
+        manzanas = aManzanas;
     }
 
 }

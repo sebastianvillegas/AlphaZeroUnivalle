@@ -11,11 +11,11 @@ public class AlphaZero {
         
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
 
-        System.out.println("Ingrese el número de filas y columnas");
+        /*System.out.println("Ingrese el número de filas y columnas");
         int n = Integer.parseInt(br.readLine());
         System.out.println("Ingrese el número de manzanas");
-        int manzanas = Integer.parseInt(br.readLine());
-        Ventana v = new Ventana(n, manzanas);
+        int manzanas = Integer.parseInt(br.readLine());*/
+        Ventana v = new Ventana();
         v.setVisible(true);
         
     }

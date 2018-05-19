@@ -4,14 +4,14 @@ public class Nodo {
     private String tipo;
     private int utilidad;
     private int profundidad;
-    private String[][] estadoJuego = new String[6][6];
+    private int[][] estadoJuego;
     private int manzanas;
     private Caballo caballo1;
     private Caballo caballo2;
     private Nodo padre;
     
     
-    public Nodo(String tip, int util, int prof, String[][] estado, int man, Caballo horse1,Caballo horse2, Nodo padre){
+    public Nodo(String tip, int util, int prof, int[][] estado, int man, Caballo horse1,Caballo horse2, Nodo padre){
         tipo = tip;
         utilidad = util;
         profundidad = prof;
@@ -68,14 +68,14 @@ public class Nodo {
     /**
      * @return the estadoJuego
      */
-    public String[][] getEstadoJuego() {
+    public int[][] getEstadoJuego() {
         return estadoJuego;
     }
 
     /**
      * @param estadoJuego the estadoJuego to set
      */
-    public void setEstadoJuego(String[][] estadoJuego) {
+    public void setEstadoJuego(int[][] estadoJuego) {
         this.estadoJuego = estadoJuego;
     }
 
