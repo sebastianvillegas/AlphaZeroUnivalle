@@ -29,8 +29,6 @@ public class LogicaAlgoritmo {
         contadorProfundidad1 = 0;
         nodos = 0;
     }
-    
-    
 
     public ArrayList<Nodo> expandirNodo(Nodo nodo) {
 
@@ -324,7 +322,7 @@ public class LogicaAlgoritmo {
     }
 
     private int habiaManzana(int numero) {
-        if (numero==3) {
+        if (numero == 3) {
             return 1;
         } else {
             return 0;
@@ -391,7 +389,7 @@ public class LogicaAlgoritmo {
     }
 
     public void calcularUtilidades(ArrayList<Nodo> fin) {
-        
+
         Collections.sort(fin, (Nodo z1, Nodo z2) -> {
             if (z1.getProfundidad() < z2.getProfundidad()) {
                 return 1;
@@ -401,7 +399,7 @@ public class LogicaAlgoritmo {
             }
             return 0;
         });
-        
+
         for (int i = 0; i < fin.size(); i++) {
             subirUtilidad(fin.get(i));
 
@@ -461,18 +459,16 @@ public class LogicaAlgoritmo {
     public void calcularUtilidadHojas(Nodo hoja) {
         if (hoja.getCaballo1().getManzanasComidas() > hoja.getCaballo2().getManzanasComidas()) {
             hoja.setUtilidad(1000);
-            
-        }
-        else{
+
+        } else {
             hoja.setUtilidad(hoja.getCaballo1().getManzanasComidas() - hoja.getCaballo2().getManzanasComidas());
         }
-        
-        
+
     }
-    
-    public void calcularUtilidadHojasPerdidas(Nodo hoja){
+
+    public void calcularUtilidadHojasPerdidas(Nodo hoja) {
         hoja.setUtilidad(hoja.getCaballo1().getManzanasComidas() - hoja.getCaballo2().getManzanasComidas());
-        
+
     }
 
     public ArrayList<Nodo> generarArregloFinal() {
@@ -499,53 +495,41 @@ public class LogicaAlgoritmo {
 
             System.out.println("Profundidad: " + pila.peek().getProfundidad());*/
             
-            
             //Si todavía quedan manzanas en el juego, se sigue expandiendo esa rama.
             if (pila.peek().getProfundidad() == 1) {
                 contadorProfundidad1++;
 
             }
-/*
-           if (contadorProfundidad1 == 2) {
+
+            if (contadorProfundidad1 == 2) {
 
                 calcularUtilidades(arregloFinal);
-                
-        /*for (int k = 0; k < arregloFinal.size(); k++) {
+
+                /*for (int k = 0; k < arregloFinal.size(); k++) {
             System.out.println("Tipo: " + arregloFinal.get(k).getTipo() + " Profundidad: "
                     + arregloFinal.get(k).getProfundidad()
                     + " Utilidad: " + arregloFinal.get(k).getUtilidad()
                     + "Manzanas caballo 1: " + arregloFinal.get(k).getCaballo1().getManzanasComidas()
                     + "Manzanas caballo 2: " + arregloFinal.get(k).getCaballo2().getManzanasComidas());
+                }*/
+                
+                arregloFinal.clear();
+                contadorProfundidad1 = 1;
+            }
 
-        }
-        
-                System.out.println("X: " + getxDecisionTomar() + "Y: " + getyDecisionTomar());
-                
-                
-                
-                    arregloFinal.clear();
-                 contadorProfundidad1 = 1;
-            }*/
-
-           
-           
-            if (pila.peek().getManzanas() > 0 /*&& pila.peek().getProfundidad() < 18*/) {
+            if (pila.peek().getManzanas() > 0 && pila.peek().getProfundidad() < 9) {
                 arreglo = expandirNodo(pila.peek());
             } //En caso de que no hayan manzanas, se llega a una hoja así que se debe calcular su utilidad
             else {
-                if (pila.peek().getManzanas()==0) {
-                calcularUtilidadHojas(pila.peek());
-            }
-                else{
+                if (pila.peek().getManzanas() == 0) {
+                    calcularUtilidadHojas(pila.peek());
+                } else {
                     calcularUtilidadHojasPerdidas(pila.peek());
                 }
-                
-            }
-            
-            
-            
 
-/*
+            }
+
+            /*
             //Imprimir los nodos expandidos
             System.out.println("Nodos generados ");
             for (int i = 0; i < arreglo.size(); i++) {
@@ -559,12 +543,12 @@ public class LogicaAlgoritmo {
             }
 
             System.out.println("Fin de mostrar los nodos generados.");*/
-
+            
             //El nodo que fue expandido se agrega al arreglo final y es borrado de la pila.
             if (pila.peek().getPadre() != null) {
                 arregloFinal.add(pila.peek());
             }
-            nodos ++;
+            nodos++;
             pila.pop();
 
             //Se agregan a la pila los nodos generados
@@ -584,18 +568,6 @@ public class LogicaAlgoritmo {
         ArrayList<Nodo> fin = new ArrayList<>();
         fin = generarArregloFinal();
         calcularUtilidades(fin);
-        
-        for (int k = 0; k < fin.size(); k++) {
-            System.out.println("Tipo: " + fin.get(k).getTipo() + " Profundidad: "
-                    + fin.get(k).getProfundidad()
-                    + " Utilidad: " + fin.get(k).getUtilidad()
-                    + " Manzanas caballo 1: " + fin.get(k).getCaballo1().getManzanasComidas()
-                    + " Manzanas caballo 2: " + fin.get(k).getCaballo2().getManzanasComidas()
-                    + " X: " + fin.get(k).getCaballo1().getPosX() + "Y: " + fin.get(k).getCaballo1().getPosY());
-        }
-
-        System.out.println(nodos);
-
         xInicialBlanco = getxDecisionTomar();
         yInicialBlanco = getyDecisionTomar();
         nodos = 0;
@@ -603,9 +575,10 @@ public class LogicaAlgoritmo {
         if (matriz[getxDecisionTomar()][getyDecisionTomar()] == 3) {
             setManzanas(getManzanas() - 1);
         }
-        System.out.println("X: " + getxDecisionTomar() + "Y: " + getyDecisionTomar());
-        System.out.println(raiz.getUtilidad());
-        
+
+        fin.clear();
+        pila.clear();
+
     }
 
     /**

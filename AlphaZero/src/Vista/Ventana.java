@@ -14,28 +14,29 @@ import javax.swing.*;
 public class Ventana extends javax.swing.JFrame {
 
     private static int[][] matriz;
-    private int[][] coloresMatriz;
     private JLabel[][] matrizBotones;
     private EventosMouse mouse;
     private static LogicaAlgoritmo logica;
     private static int manzanas;
     private static int n;
     private int medida;
+    private int manzanasGoku;
+    private int manzanasFreezer;
 
-    public Ventana(/*int n, int manzanas*/) throws IOException {
+    public Ventana() throws IOException {
 
         super("Teoria de Juegos");
-        /*this.n = n;
-        this.manzanas = manzanas;*/
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        panelMatriz.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
         mouse = new EventosMouse();
-        textAreaReporte.setEditable(false);
-        textAreaReporte.setLineWrap(true);
-        textAreaReporte.setWrapStyleWord(true);
-        botonRecargar.setEnabled(false);
+        manzanasGoku = 0;
+        manzanasFreezer = 0;
         medida = 0;
+        this.n = 6;
+        matrizBotones = new JLabel[n][n];
+        cargarInicio();
 
     }
 
@@ -45,41 +46,38 @@ public class Ventana extends javax.swing.JFrame {
 
         panelMatriz = new javax.swing.JPanel();
         panelBotones = new javax.swing.JPanel();
-        labelTitulo = new javax.swing.JLabel();
         botonEmpezar = new javax.swing.JButton();
-        botonRecargar = new javax.swing.JButton();
-        labelReporte = new javax.swing.JLabel();
-        labelTema = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        textAreaReporte = new javax.swing.JTextArea();
-        campoMatriz = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         campoManzanas = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         botonCargar = new javax.swing.JButton();
-        label = new javax.swing.JLabel();
+        labelFreezer = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        labelEsferas = new javax.swing.JLabel();
+        labelGanador = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        labelGoku = new javax.swing.JLabel();
+        labelTema = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(30, 156, 15));
+        setPreferredSize(new java.awt.Dimension(1300, 1000));
 
         panelMatriz.setBackground(new java.awt.Color(254, 254, 254));
-        panelMatriz.setPreferredSize(new java.awt.Dimension(600, 600));
+        panelMatriz.setPreferredSize(new java.awt.Dimension(900, 900));
 
         javax.swing.GroupLayout panelMatrizLayout = new javax.swing.GroupLayout(panelMatriz);
         panelMatriz.setLayout(panelMatrizLayout);
         panelMatrizLayout.setHorizontalGroup(
             panelMatrizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 775, Short.MAX_VALUE)
         );
         panelMatrizLayout.setVerticalGroup(
             panelMatrizLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        panelBotones.setBackground(new java.awt.Color(254, 254, 254));
-
-        labelTitulo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        labelTitulo.setText("AlphaZero");
-
+        botonEmpezar.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
         botonEmpezar.setText("Empezar");
         botonEmpezar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,18 +85,12 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
-        botonRecargar.setText("Recargar");
+        campoManzanas.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
 
-        labelReporte.setText("Reporte");
+        jLabel2.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
+        jLabel2.setText("Número de Esferas");
 
-        textAreaReporte.setColumns(20);
-        textAreaReporte.setRows(3);
-        jScrollPane1.setViewportView(textAreaReporte);
-
-        jLabel1.setText("Tamaño de la matriz:");
-
-        jLabel2.setText("Número de manzanas:");
-
+        botonCargar.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
         botonCargar.setText("Cargar");
         botonCargar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,109 +98,115 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
+        labelFreezer.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
+        labelFreezer.setText("0");
+
+        jLabel4.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
+        jLabel4.setText("Freezer(PC):");
+
+        jLabel5.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
+        jLabel5.setText("Goku(P1): ");
+
+        labelEsferas.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
+        labelEsferas.setText("0");
+
+        labelGanador.setMaximumSize(new java.awt.Dimension(329, 128));
+
+        jLabel7.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
+        jLabel7.setText("Esferas restantes: ");
+
+        labelGoku.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
+        labelGoku.setText("0");
+
         javax.swing.GroupLayout panelBotonesLayout = new javax.swing.GroupLayout(panelBotones);
         panelBotones.setLayout(panelBotonesLayout);
         panelBotonesLayout.setHorizontalGroup(
             panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelGanador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panelBotonesLayout.createSequentialGroup()
+                .addGap(45, 45, 45)
                 .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBotonesLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelEsferas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(30, 30, 30))
+                    .addGroup(panelBotonesLayout.createSequentialGroup()
                         .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelBotonesLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(labelTema, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelBotonesLayout.createSequentialGroup()
-                                .addGap(104, 104, 104)
-                                .addComponent(labelReporte)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
-                        .addContainerGap(22, Short.MAX_VALUE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(campoManzanas))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(campoMatriz, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(botonEmpezar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonCargar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(labelGoku, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelFreezer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+            .addGroup(panelBotonesLayout.createSequentialGroup()
+                .addGap(67, 67, 67)
                 .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
-                        .addComponent(labelTitulo)
-                        .addGap(80, 80, 80))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
-                        .addComponent(botonRecargar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(botonEmpezar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                        .addComponent(botonCargar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(campoManzanas, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(120, 120, 120))
         );
         panelBotonesLayout.setVerticalGroup(
             panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBotonesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelTitulo)
+                .addGap(21, 21, 21)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(campoManzanas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(botonCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botonEmpezar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelEsferas, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoMatriz, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelGoku, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
                 .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoManzanas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(54, 54, 54)
-                .addComponent(botonCargar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(botonEmpezar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botonRecargar)
-                .addGap(18, 18, 18)
-                .addComponent(labelTema, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(labelReporte)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelFreezer, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addComponent(labelGanador, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        labelTema.setMaximumSize(new java.awt.Dimension(329, 128));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(label)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panelMatriz, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14)))
-                .addComponent(panelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(panelMatriz, javax.swing.GroupLayout.DEFAULT_SIZE, 775, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(labelTema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelBotones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(panelMatriz, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
-                .addComponent(label)
+                .addComponent(labelTema, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelBotones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelMatriz, javax.swing.GroupLayout.DEFAULT_SIZE, 983, Short.MAX_VALUE)
+                .addGap(15, 15, 15))
         );
 
         pack();
@@ -216,46 +214,60 @@ public class Ventana extends javax.swing.JFrame {
 
     private void botonCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCargarActionPerformed
         // TODO add your handling code here:
-        this.n = Integer.valueOf(campoMatriz.getText());
+        //this.n = Integer.valueOf(campoMatriz.getText());
         this.manzanas = Integer.valueOf(campoManzanas.getText());
+        manzanasGoku = 0;
+        manzanasFreezer = 0;
+        labelEsferas.setText(String.valueOf(this.manzanas));
+        labelGoku.setText("0");
+        labelFreezer.setText("0");
+        botonEmpezar.setEnabled(true);
+        ImageIcon caballoImagen1 = new ImageIcon("sources/" + "DragonBall" + "/11" + ".png");
+        labelGanador.setIcon(caballoImagen1);
         logica = new LogicaAlgoritmo(this.n, this.manzanas);
-        panelMatriz.setLayout(new GridLayout(n, n));
-        matrizBotones = new JLabel[n][n];
-        crearMatrizBotones();
         matriz = new int[n][n];
-        coloresMatriz = new int[n][n];
         llenarMatriz();
     }//GEN-LAST:event_botonCargarActionPerformed
 
-    private void botonEmpezarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEmpezarActionPerformed
-        // TODO add your handling code here:
+    public void tomarDecision(){
         int xBlanco = logica.getxInicialBlanco();
         int yBlanco = logica.getyInicialBlanco();
-        
         logica.tomarDecision(matriz);
-        
         matriz[xBlanco][yBlanco] = 0;
         matrizBotones[xBlanco][yBlanco].setIcon(null);
         if (matriz[logica.getxInicialBlanco()][logica.getyInicialBlanco()] == 3) {
             manzanas--;
+            manzanasFreezer++;
+            labelFreezer.setText(String.valueOf(manzanasFreezer));
+            labelEsferas.setText(String.valueOf(this.manzanas));
+            
+            if(manzanas == 0){
+                if (manzanasGoku > manzanasFreezer) {
+                    labelGoku.setText(manzanasGoku + " " + "Ganó Goku");
+                    ImageIcon ganador = new ImageIcon("sources/" + "DragonBall" + "/goku" + ".gif");
+                    ImageIcon ganadorT = new ImageIcon(ganador.getImage().getScaledInstance(318, 300, java.awt.Image.SCALE_DEFAULT));
+                     labelGanador.setIcon(ganadorT);
+                } 
+                else {
+                    labelFreezer.setText(manzanasFreezer + " " + "Ganó Freezer");
+                    ImageIcon ganador = new ImageIcon("sources/" + "DragonBall" + "/freezer" + ".gif");
+                    ImageIcon ganadorT = new ImageIcon(ganador.getImage().getScaledInstance(318, 300, java.awt.Image.SCALE_DEFAULT));
+                     labelGanador.setIcon(ganadorT);
+                }
+            }
         }
+
         matriz[logica.getxInicialBlanco()][logica.getyInicialBlanco()] = 1;
-        
-        ImageIcon caballoImagen = new ImageIcon("sources/" + "A" + "/" + 1 + ".png"); 
+        ImageIcon caballoImagen = new ImageIcon("sources/" + "DragonBall" + "/" + 1 + ".png");
         ImageIcon caballoT = new ImageIcon(caballoImagen.getImage().getScaledInstance(medida, medida, java.awt.Image.SCALE_DEFAULT));
         matrizBotones[logica.getxInicialBlanco()][logica.getyInicialBlanco()].setIcon(caballoT);
         
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                System.out.print(matriz[i][j]+ " ");
-                
-            }
-            System.out.println("");
-            
-        }
-        
-        
-        
+    }
+    private void botonEmpezarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEmpezarActionPerformed
+        // TODO add your handling code here:
+        tomarDecision();
+        botonEmpezar.setEnabled(false);
+
     }//GEN-LAST:event_botonEmpezarActionPerformed
    
     private void crearMatrizBotones(){
@@ -266,31 +278,56 @@ public class Ventana extends javax.swing.JFrame {
                 
                 JLabel boton = new JLabel();
                 boton.addMouseListener(mouse);
+                boton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 matrizBotones[i][j] = boton;
                 panelMatriz.add(boton);
             }
         }
     }
-    
-    private void llenarMatriz() {
+
+    public void cargarInicio() {
+        
+        ImageIcon caballoImagen = new ImageIcon("sources/" + "DragonBall" + "/10" + ".png");
+        ImageIcon caballoT = new ImageIcon(caballoImagen.getImage().getScaledInstance(329, 128, java.awt.Image.SCALE_DEFAULT));
+        labelTema.setIcon(caballoT);
+        
+        ImageIcon caballoImagen1 = new ImageIcon("sources/" + "DragonBall" + "/11" + ".png");
+        //ImageIcon caballoT1 = new ImageIcon(caballoImagen.getImage().getScaledInstance(329, 128, java.awt.Image.SCALE_DEFAULT));
+        labelGanador.setIcon(caballoImagen1);
+        panelMatriz.setLayout(new GridLayout(n, n));
+
+        crearMatrizBotones();
         boolean rotar = false;
-        medida = 300/n;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (rotar) {
-                    coloresMatriz[i][j] = 0;
-                }
-                else{
-                    coloresMatriz[i][j] = 1;
+                    Color azul = new Color(30, 156, 15);
+                    matrizBotones[i][j].setBackground(azul);
+                    matrizBotones[i][j].setOpaque(true);
+                } else {
+                    matrizBotones[i][j].setBackground(Color.WHITE);
+                    matrizBotones[i][j].setOpaque(true);
                 }
                 rotar = !rotar;
             }
-            if (n%2 == 0) {
+            if (n % 2 == 0) {
                 rotar = !rotar;
             }
 
         }
         
+
+    }
+    
+    private void llenarMatriz() {
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrizBotones[i][j].setIcon(null);
+            }
+            
+        }
+        medida = 900/n;
         int xBlanco = (int) (Math.random() * n) ;
         int yBlanco = (int) (Math.random() * n) ;
         
@@ -308,10 +345,10 @@ public class Ventana extends javax.swing.JFrame {
         logica.setyInicialBlanco(yBlanco);
         logica.setxInicialNegro(xNegro);
         logica.setyInicialNegro(yNegro);
-        //matriz[0][1] = 3;
+        //matriz[1][3] = 3;
         //matriz[2][1] = 3;
-        //matriz[2][0] = 3;
-        
+        //matriz[2][3] = 3;
+        //matriz[3][3] = 3;
         
         for (int i = 0; i < manzanas; i++) {
             int xManzana = (int) (Math.random() * n) ;
@@ -325,32 +362,33 @@ public class Ventana extends javax.swing.JFrame {
             matriz[xManzana][yManzana] = 3;
 
         }
-        /*
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                System.out.print(matriz[i][j]+ " ");
-                
-            }
-            System.out.println("");
-            
-        }*/
+        
+        int bola = 1;
         
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                
-                if (coloresMatriz[i][j]==0) {
-                    matrizBotones[i][j].setBackground(Color.white);
-                    matrizBotones[i][j].setOpaque(true);
-                }
-                else if (coloresMatriz[i][j]==1) {
-                    matrizBotones[i][j].setBackground(Color.black);
-                    matrizBotones[i][j].setOpaque(true);
-                }
-                
                 if (matriz[i][j] != 0) {
-                    ImageIcon caballoImagen = new ImageIcon("sources/" + "A" + "/" + matriz[i][j] + ".png"); 
-                    ImageIcon caballoT = new ImageIcon(caballoImagen.getImage().getScaledInstance(medida, medida, java.awt.Image.SCALE_DEFAULT));
-                    matrizBotones[i][j].setIcon(caballoT);
+                    
+                    
+                    if(matriz[i][j] == 3){
+                        
+                        ImageIcon caballoImagen = new ImageIcon("sources/" + "DragonBall" + "/bola" + bola + ".png");
+                        ImageIcon caballoT = new ImageIcon(caballoImagen.getImage().getScaledInstance(medida, medida, java.awt.Image.SCALE_DEFAULT));
+                        matrizBotones[i][j].setIcon(caballoT);
+                        if (bola == 7) {
+                            bola = 1;
+                        }
+                        else{
+                            bola++;
+                        }
+                                
+                    } 
+                    else {
+                        ImageIcon caballoImagen = new ImageIcon("sources/" + "DragonBall" + "/" + matriz[i][j] + ".png");
+                        ImageIcon caballoT = new ImageIcon(caballoImagen.getImage().getScaledInstance(medida, medida, java.awt.Image.SCALE_DEFAULT));
+                        matrizBotones[i][j].setIcon(caballoT);
+                    }
+
                 }
             }
             
@@ -368,25 +406,41 @@ public class Ventana extends javax.swing.JFrame {
         if (matriz[xNueva][yNueva] == 3) {
             manzanas--;
             logica.setManzanas(manzanas);
+            manzanasGoku++;
+            labelGoku.setText(String.valueOf(manzanasGoku));
+            labelEsferas.setText(String.valueOf(this.manzanas));
         }
         
         matriz[xNueva][yNueva] = 2; 
         logica.setxInicialNegro(xNueva);
         logica.setyInicialNegro(yNueva);
         
-        ImageIcon caballoImagen = new ImageIcon("sources/" + "A" + "/" + 2 + ".png"); 
+        ImageIcon caballoImagen = new ImageIcon("sources/" + "DragonBall" + "/" + 2 + ".png"); 
         ImageIcon caballoT = new ImageIcon(caballoImagen.getImage().getScaledInstance(medida, medida, java.awt.Image.SCALE_DEFAULT));
-        matrizBotones[xNueva][yNueva].setIcon(caballoT);
+        matrizBotones[xNueva][yNueva].setIcon(caballoT);   
         
-        System.out.println(manzanas);
-        System.out.println(logica.getManzanas());
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                System.out.print(matriz[i][j]+ " ");
-                
-            }
-            System.out.println("");
-            
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(manzanas > 0){
+            tomarDecision();
+        }
+        else{
+            if (manzanasGoku > manzanasFreezer) {
+                    labelGoku.setText(manzanasGoku + " " + "Ganó Goku");
+                    ImageIcon ganador = new ImageIcon("sources/" + "DragonBall" + "/goku" + ".gif");
+                    ImageIcon ganadorT = new ImageIcon(ganador.getImage().getScaledInstance(318, 300, java.awt.Image.SCALE_DEFAULT));
+                     labelGanador.setIcon(ganadorT);
+                } 
+                else {
+                    labelFreezer.setText(manzanasFreezer + " " + "Ganó Freezer");
+                    ImageIcon ganador = new ImageIcon("sources/" + "DragonBall" + "/freezer" + ".gif");
+                    ImageIcon ganadorT = new ImageIcon(ganador.getImage().getScaledInstance(318, 300, java.awt.Image.SCALE_DEFAULT));
+                     labelGanador.setIcon(ganadorT);
+                }
         }
         
     }
@@ -431,9 +485,6 @@ public class Ventana extends javax.swing.JFrame {
                                 if( click.getSource() == matrizBotones[i][j]) {
                                     
                                     hacerJugada(i, j);
-                                    
-                                    
-                                   
                                 }			
                             }
                         }
@@ -446,18 +497,17 @@ public class Ventana extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCargar;
     private javax.swing.JButton botonEmpezar;
-    private javax.swing.JButton botonRecargar;
     private javax.swing.JTextField campoManzanas;
-    private javax.swing.JTextField campoMatriz;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel label;
-    private javax.swing.JLabel labelReporte;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel labelEsferas;
+    private javax.swing.JLabel labelFreezer;
+    private javax.swing.JLabel labelGanador;
+    private javax.swing.JLabel labelGoku;
     private javax.swing.JLabel labelTema;
-    private javax.swing.JLabel labelTitulo;
     private javax.swing.JPanel panelBotones;
     private javax.swing.JPanel panelMatriz;
-    private javax.swing.JTextArea textAreaReporte;
     // End of variables declaration//GEN-END:variables
 }
