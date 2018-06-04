@@ -22,6 +22,7 @@ public class Ventana extends javax.swing.JFrame {
     private int medida;
     private int manzanasGoku;
     private int manzanasFreezer;
+    private boolean enJuego;
 
     public Ventana() throws IOException {
 
@@ -31,6 +32,7 @@ public class Ventana extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         panelMatriz.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
         mouse = new EventosMouse();
+        enJuego = false;
         manzanasGoku = 0;
         manzanasFreezer = 0;
         medida = 0;
@@ -216,6 +218,15 @@ public class Ventana extends javax.swing.JFrame {
         // TODO add your handling code here:
         //this.n = Integer.valueOf(campoMatriz.getText());
         this.manzanas = Integer.valueOf(campoManzanas.getText());
+        if(this.manzanas%2 == 0){
+            if(this.manzanas == 34){
+                this.manzanas = 33;
+            }
+            else{
+                this.manzanas = this.manzanas +1;
+            }
+        }
+        enJuego = false;
         manzanasGoku = 0;
         manzanasFreezer = 0;
         labelEsferas.setText(String.valueOf(this.manzanas));
@@ -247,12 +258,14 @@ public class Ventana extends javax.swing.JFrame {
                     ImageIcon ganador = new ImageIcon("sources/" + "DragonBall" + "/goku" + ".gif");
                     ImageIcon ganadorT = new ImageIcon(ganador.getImage().getScaledInstance(318, 300, java.awt.Image.SCALE_DEFAULT));
                      labelGanador.setIcon(ganadorT);
+                     enJuego = false;
                 } 
                 else {
                     labelFreezer.setText(manzanasFreezer + " " + "Ganó Freezer");
                     ImageIcon ganador = new ImageIcon("sources/" + "DragonBall" + "/freezer" + ".gif");
                     ImageIcon ganadorT = new ImageIcon(ganador.getImage().getScaledInstance(318, 300, java.awt.Image.SCALE_DEFAULT));
                      labelGanador.setIcon(ganadorT);
+                     enJuego = false;
                 }
             }
         }
@@ -265,7 +278,9 @@ public class Ventana extends javax.swing.JFrame {
     }
     private void botonEmpezarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEmpezarActionPerformed
         // TODO add your handling code here:
+        
         tomarDecision();
+        enJuego = true;
         botonEmpezar.setEnabled(false);
 
     }//GEN-LAST:event_botonEmpezarActionPerformed
@@ -418,9 +433,10 @@ public class Ventana extends javax.swing.JFrame {
         ImageIcon caballoImagen = new ImageIcon("sources/" + "DragonBall" + "/" + 2 + ".png"); 
         ImageIcon caballoT = new ImageIcon(caballoImagen.getImage().getScaledInstance(medida, medida, java.awt.Image.SCALE_DEFAULT));
         matrizBotones[xNueva][yNueva].setIcon(caballoT);   
+        this.paintAll(this.getGraphics());
         
         try {
-            Thread.sleep(100);
+            Thread.sleep(1000);
         } catch (InterruptedException ex) {
             Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -434,12 +450,14 @@ public class Ventana extends javax.swing.JFrame {
                     ImageIcon ganador = new ImageIcon("sources/" + "DragonBall" + "/goku" + ".gif");
                     ImageIcon ganadorT = new ImageIcon(ganador.getImage().getScaledInstance(318, 300, java.awt.Image.SCALE_DEFAULT));
                      labelGanador.setIcon(ganadorT);
+                     enJuego = false;
                 } 
                 else {
                     labelFreezer.setText(manzanasFreezer + " " + "Ganó Freezer");
                     ImageIcon ganador = new ImageIcon("sources/" + "DragonBall" + "/freezer" + ".gif");
                     ImageIcon ganadorT = new ImageIcon(ganador.getImage().getScaledInstance(318, 300, java.awt.Image.SCALE_DEFAULT));
                      labelGanador.setIcon(ganadorT);
+                     enJuego = false;
                 }
         }
         
@@ -454,7 +472,7 @@ public class Ventana extends javax.swing.JFrame {
             
             Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.paintAll(this.getGraphics());
+        
         
         botonRecargar.setEnabled(false);
         botonEmpezar.setEnabled(true);
@@ -483,8 +501,24 @@ public class Ventana extends javax.swing.JFrame {
 			for(int i=0; i<n; i++) {
                             for (int j = 0; j < n; j++) {
                                 if( click.getSource() == matrizBotones[i][j]) {
+                                    int xNegro = logica.getxInicialNegro();
+                                    int yNegro = logica.getyInicialNegro();
+                                    int xBlanco = logica.getxInicialBlanco();
+                                    int yBlanco = logica.getyInicialBlanco();
                                     
-                                    hacerJugada(i, j);
+                                    if((((i == xNegro-2) && (j==yNegro+1)) ||
+                                       ((i == xNegro-2) && (j==yNegro-1)) || 
+                                       ((i == xNegro+2) && (j==yNegro-1)) ||
+                                       ((i == xNegro+2) && (j==yNegro+1)) ||
+                                       ((i == xNegro+1) && (j==yNegro+2)) ||
+                                       ((i == xNegro-1) && (j==yNegro+2)) ||
+                                       ((i == xNegro-1) && (j==yNegro-2)) ||
+                                       ((i == xNegro+1) && (j==yNegro-2))) && 
+                                        enJuego == true && 
+                                        !((i == xBlanco) && (j == yBlanco))){
+                                        hacerJugada(i, j);
+                                    }
+                                    
                                 }			
                             }
                         }
